@@ -42,6 +42,8 @@ public class AppLab {
      */
 
 
+//Добавляю ребенка в базу данных ChildTable
+//Сначала генерирую UUID потом добавляю в базу UUID и childName
     public void addNewChild(String childName) {
         UUID uuid = UUID.randomUUID();
         ContentValues values = getContentValuesForChildrenName(uuid, childName);
