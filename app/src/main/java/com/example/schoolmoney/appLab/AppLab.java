@@ -111,15 +111,15 @@ public class AppLab {
             while (!cursor.isAfterLast()) {
                 //Получаю ребенка из курсора
                 child = cursor.getChild();
-                //Делаю запрос для получения курсора с заметками
+                //Инициализирую курсор с заметками
                 noteCursorWrapper = queryNote(NoteTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
                 //Добавляю заметку из курсора
                 child = noteCursorWrapper.getChildWithNote(child);
-
+                //Инициализирую курсор с родителями
                 parentCursorWrapper = queryParent(ParentTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
-
+                //Получаю ребёнкп с добавлеными родителями
                 child = parentCursorWrapper.getChildWithParent(child);
 
 
