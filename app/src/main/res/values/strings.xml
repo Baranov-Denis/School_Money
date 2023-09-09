@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">School Money</string>
+
+    <!-- Текст для кнопок Start page -->
+    <string name="Receipts">Receipts</string>
+    <string name="Expenses">Expenses</string>
+    <string name="Result">Result</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Child_name">Child name</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Save">Save</string>
+    <string name="test_value">1987</string>
+    <string name="rub">rub</string>
+    <string name="Note_hint">For note</string>
+    <string name="add_parent">Add parent</string>
+    <string name="add_money">Add money</string>
+    <string name="Enter_parent_name">Enter parent name</string>
+    <string name="Enter_parent_phone">Enter parent phone</string>
+    <string name="Enter_child_name">Enter child name</string>
+
+
+</resources>

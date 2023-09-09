@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".fragments.ChildCardFragment"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/child_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/child_name_on_child_card_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textSize="30sp"
+            android:padding="8dp"
+            android:text="@string/Child_name" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/textStyle"
+            android:id="@+id/note_text_view"
+            android:layout_margin="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:hint="@string/Note_hint"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="7"
+            android:background="@drawable/note_background"/>
+
+
+<!-- Parents -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:tag="my_fragment_tag"
+            android:maxHeight="200dp"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/parent_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ReceiptsPageFragment"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_new_parent_fab_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@null"
+                app:backgroundTint="@null"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/add_parent"/>
+
+        </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:id="@+id/fragment_children_list"
+            android:tag="my_fragment_tag"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/child_money_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".ReceiptsPageFragment"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_new_child_money_fab_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@null"
+                app:backgroundTint="@null"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="end"
+                android:text="@string/add_money"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancel_button_on_child_card_fragment"
+            android:text="@string/Cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/save_button_on_child_card_fragment"
+            android:text="@string/Save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    </FrameLayout>
+
+
