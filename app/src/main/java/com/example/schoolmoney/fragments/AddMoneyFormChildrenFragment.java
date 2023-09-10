@@ -1,13 +1,17 @@
 package com.example.schoolmoney.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -16,6 +20,7 @@ import com.example.schoolmoney.appLab.AppLab;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -35,6 +40,18 @@ public class AddMoneyFormChildrenFragment extends Fragment {
         setButtons();
         return view;
     }
+    @Override
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Найдите ваш EditText
+        EditText editText = view.findViewById(R.id.enter_money_from_child_edit_text);
+        // Установите фокус на EditText
+        editText.requestFocus();
+        // Откройте клавиатуру
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
 
     public static AddMoneyFormChildrenFragment newInstance(UUID childUUID){
         Bundle args = new Bundle();
@@ -51,12 +68,24 @@ public class AddMoneyFormChildrenFragment extends Fragment {
         value.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
+
+
+        // Установите фокус на EditText
+        value.requestFocus();
+
+        // Откройте клавиатуру
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(value, InputMethodManager.SHOW_FORCED);
+
         saveButton.setOnClickListener(o -> {
             // Создаем объект Date, который представляет текущую дату и время.
             Date currentDate = new Date();
 
+            // Установите желаемый локальный язык (например, русский)
+            Locale locale = new Locale("ru", "RU");
+
             // Создаем объект SimpleDateFormat для форматирования даты.
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
 
             // Преобразуем текущую дату в строку с заданным форматом.
             String todayDate = dateFormat.format(currentDate);

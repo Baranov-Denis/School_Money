@@ -3,7 +3,7 @@
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="vertical"
-android:id="@+id/parent_item_row"
+android:id="@+id/money_item_row"
 style="@style/ItemTheme"
     >
 
@@ -13,6 +13,12 @@ style="@style/ItemTheme"
     android:orientation="vertical"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,9 +26,19 @@ style="@style/ItemTheme"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:textSize="26sp"
-        android:id="@+id/parent_item_title"
-        android:text="@string/Parent_name"
+        android:id="@+id/money_item_value"
+        android:text="@string/Value"
         />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginStart="8dp"
+            android:text="@string/rub"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,10 +49,10 @@ style="@style/ItemTheme"
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/parent_phone"
+            android:id="@+id/money_item_date"
             style="@style/SecondTextStyle"
-            android:text="@string/test_value"
-            android:textSize="30sp"
+            android:text="@string/date"
+            android:textSize="16sp"
             />
 
     </LinearLayout>

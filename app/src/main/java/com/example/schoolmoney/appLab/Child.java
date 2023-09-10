@@ -10,11 +10,20 @@ public class Child implements Comparable<Child> {
     private String childName;
     private String note;
     private List<Parent> parentsList;
+    private List<Money> moneyList;
+
 
     public Child() {
+        moneyList = new ArrayList<>();
         parentsList = new ArrayList<>();
     }
 
+    public List<Money> getMoneyList() {
+        return moneyList;
+    }
+    public void addMoney(Money money) {
+        moneyList.add(money);
+    }
     public List<Parent> getParentsList() {
         return parentsList;
     }

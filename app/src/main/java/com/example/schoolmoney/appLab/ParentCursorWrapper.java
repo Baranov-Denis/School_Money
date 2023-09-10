@@ -18,14 +18,14 @@ public class ParentCursorWrapper extends CursorWrapper {
         if (getWrappedCursor() != null && !getWrappedCursor().isClosed() && getCount() > 0) {
 
             moveToFirst();
-            while (moveToNext()) {
+            do {
                 Parent parent = new Parent();
                 String parentName = getString(getColumnIndex(DbSchema.ParentTable.Cols.PARENT_NAME));
                 String parentPhone = getString(getColumnIndex(DbSchema.ParentTable.Cols.PARENT_PHONE));
                 parent.setParentName(parentName);
                 parent.setParentPhone(parentPhone);
                 child.addParent(parent);
-            }
+            }while (moveToNext());
         }
 
         return child;

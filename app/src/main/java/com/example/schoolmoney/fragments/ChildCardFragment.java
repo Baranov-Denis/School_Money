@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,6 +37,9 @@ public class ChildCardFragment extends Fragment {
     private EditText noteEditText;
     private ParentAdapter parentAdapter;
     private RecyclerView parentRecycleView;
+    private MoneyAdapter moneyAdapter;
+    private RecyclerView moneyRecyclerView;
+
 
 
     private View view;
@@ -49,6 +53,8 @@ public class ChildCardFragment extends Fragment {
         child = appLab.getChildByUUID(childUUID);
         parentRecycleView = view.findViewById(R.id.parent_recycler_view);
         parentRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        moneyRecyclerView = view.findViewById(R.id.child_money_recycler_view);
+        moneyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         bindChild();
         setButtons();
         updateUI();
@@ -101,6 +107,7 @@ public class ChildCardFragment extends Fragment {
     /**
      * Recycler для parents
      */
+
     private class ParentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
        // private LinearLayout layout;
@@ -157,8 +164,70 @@ public class ChildCardFragment extends Fragment {
     }
 
 
+    /**
+     * Recycler для MONEY
+     */
+
+    private class MoneyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        // private LinearLayout layout;
+        private TextView moneyValue;
+        private TextView moneyDate;
+        private Money money;
+
+
+        public MoneyHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.money_item, parent, false));
+            moneyValue = itemView.findViewById(R.id.money_item_value);
+            moneyDate = itemView.findViewById(R.id.money_item_date);
+
+        }
+
+        public void bind(Money money) {
+            this.money = money;
+            moneyValue.setText(money.getValueIncome()+"");
+            moneyDate.setText(money.getDate());
+
+        }
+
+        @Override
+        public void onClick(View v) {
+        }
+    }
+
+    private class MoneyAdapter extends RecyclerView.Adapter<MoneyHolder> {
+
+        private final List<Money> money;
+
+        public MoneyAdapter(List<Money> money) {
+            this.money = money;
+        }
+
+        @NonNull
+        @Override
+        public MoneyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            return new MoneyHolder(inflater, parent);
+        }
+
+
+        @Override
+        public void onBindViewHolder(@NonNull MoneyHolder holder, int position) {
+
+            Money moneyItem = money.get(position);
+            holder.bind(moneyItem);
+        }
+
+        @Override
+        public int getItemCount() {
+            return money.size();
+        }
+    }
+
+
     private void updateUI() {
         List<Parent> parentsList = child.getParentsList();
+        List<Money> moneyList = child.getMoneyList();
 
         if (parentAdapter == null) {
 
@@ -167,6 +236,13 @@ public class ChildCardFragment extends Fragment {
 
         } else {
             parentAdapter.notifyDataSetChanged();
+        }
+
+        if(moneyAdapter == null){
+            moneyAdapter = new MoneyAdapter(moneyList);
+            moneyRecyclerView.setAdapter(moneyAdapter);
+        } else {
+            moneyAdapter.notifyDataSetChanged();
         }
 
     }

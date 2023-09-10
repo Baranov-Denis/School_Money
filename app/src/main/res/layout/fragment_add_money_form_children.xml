@@ -11,20 +11,32 @@ android:orientation="vertical">
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/enter_value_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Enter_value"/>
-
-        <EditText
-            android:id="@+id/enter_money_from_child_edit_text"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Enter_value" />
+
+            <EditText
+                android:id="@+id/enter_money_from_child_edit_text"
+                style="@style/BigText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+        </LinearLayout>
 
 
     </FrameLayout>
@@ -41,14 +53,24 @@ android:orientation="vertical">
         android:id="@+id/cancel_button_on_add_money_from_child_fragment"
         android:text="@string/Cancel"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:background="@drawable/recycler_item_blue"
+        android:layout_margin="4dp"
         android:layout_weight="1"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/save_button_on_add_money_from_child_fragment"
         android:text="@string/Save"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:background="@drawable/recycler_item_blue"
+        android:layout_margin="4dp"
         android:layout_weight="1"/>
 </LinearLayout>
 </FrameLayout>

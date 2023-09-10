@@ -1,12 +1,16 @@
 package com.example.schoolmoney.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,6 +31,17 @@ public class CreateNewChildFragment extends Fragment {
         setButtons();
 
         return view;
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Найдите ваш EditText
+        EditText editText = view.findViewById(R.id.enter_new_child_edit_text);
+        // Установите фокус на EditText
+        editText.requestFocus();
+        // Откройте клавиатуру
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void setButtons() {

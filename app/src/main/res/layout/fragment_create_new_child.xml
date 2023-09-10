@@ -4,28 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreateNewChildFragment"
+
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/BigText"
             android:text="@string/Enter_child_name"/>
 
         <EditText
             android:id="@+id/enter_new_child_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            style="@style/BigText" />
+        </LinearLayout>
 
     </FrameLayout>
 
@@ -41,14 +53,24 @@
             android:id="@+id/cancel_button_on_create_child_fragment"
             android:text="@string/Cancel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:background="@drawable/recycler_item_blue"
+            android:layout_margin="4dp"
             android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_button_on_create_child_fragment"
             android:text="@string/Save"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:background="@drawable/recycler_item_blue"
+            android:layout_margin="4dp"
             android:layout_weight="1"/>
     </LinearLayout>
 </FrameLayout>

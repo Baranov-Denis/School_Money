@@ -16,8 +16,10 @@ import android.widget.TextView;
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.Money;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -65,6 +67,7 @@ public class ChildrenPageFragment extends Fragment {
 
     private class ChildHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView childNameTextView;
+        private final TextView childMoneyTextView;
         //private final LinearLayout layout;
 
         private Child child;
@@ -72,6 +75,7 @@ public class ChildrenPageFragment extends Fragment {
         public ChildHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.child_item, parent, false));
             childNameTextView = itemView.findViewById(R.id.child_item_title);
+            childMoneyTextView = itemView.findViewById(R.id.value);
             //layout = itemView.findViewById(R.id.child_item_row);
             itemView.setOnClickListener(this);
         }
@@ -80,6 +84,12 @@ public class ChildrenPageFragment extends Fragment {
             if (child.getChildName() != null) {
                 this.child = child;
                 childNameTextView.setText(child.getChildName());
+                int childMoney = 0;
+                ArrayList<Money> moneyList = (ArrayList<Money>) child.getMoneyList();
+                for(Money money: moneyList){
+                    childMoney += Integer.parseInt(money.getValueIncome());
+                }
+                childMoneyTextView.setText(childMoney+"");
             }
         }
 

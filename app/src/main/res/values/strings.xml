@@ -19,6 +19,13 @@
     <string name="Enter_parent_phone">Enter parent phone</string>
     <string name="Enter_child_name">Enter child name</string>
     <string name="Enter_value">Enter value</string>
+    <string name="Parents_info">Parents info</string>
+    <string name="Money_info">Money info</string>
+    <string name="Note">Note</string>
+    <string name="Add_child">Add child</string>
+    <string name="Value">Value</string>
+    <string name="date">date</string>
+    <string name="Parent_name">Parent name</string>
 
 
 </resources>

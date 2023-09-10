@@ -121,6 +121,7 @@ public class AppLab {
 
         NoteCursorWrapper noteCursorWrapper = null;
         ParentCursorWrapper parentCursorWrapper = null;
+        MoneyCursorWrapper moneyCursorWrapper = null;
 
 
         try {
@@ -133,11 +134,18 @@ public class AppLab {
                         new String[]{child.getUuid().toString()});
                 //Добавляю заметку из курсора
                 child = noteCursorWrapper.getChildWithNote(child);
+
                 //Инициализирую курсор с родителями
                 parentCursorWrapper = queryParent(ParentTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
                 //Получаю ребёнка с добавлеными родителями
                 child = parentCursorWrapper.getChildWithParent(child);
+
+                //Инициализирую курсор с деньгами
+                moneyCursorWrapper = queryMoney(MoneyTable.Cols.UUID + " = ?",
+                        new String[]{child.getUuid().toString()});
+                //Получаю ребёнка с добавлеными деньгами
+                child = moneyCursorWrapper.getChildWithMoney(child);
 
 
                 if (child != null) {
@@ -203,6 +211,19 @@ public class AppLab {
                 null
         );
         return new ParentCursorWrapper(cursor);
+    }
+
+    private MoneyCursorWrapper queryMoney(String whereClause, String[] whereArgs){
+        Cursor cursor = sqLiteDatabase.query(
+                MoneyTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new MoneyCursorWrapper(cursor);
     }
 
 
