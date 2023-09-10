@@ -18,6 +18,7 @@
     <string name="Enter_parent_name">Enter parent name</string>
     <string name="Enter_parent_phone">Enter parent phone</string>
     <string name="Enter_child_name">Enter child name</string>
+    <string name="Enter_value">Enter value</string>
 
 
 </resources>

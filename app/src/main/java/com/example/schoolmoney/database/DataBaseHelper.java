@@ -19,6 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("create table " + ChildTable.NAME + "(" +
                 ChildTable.Cols.UUID + " primary key , " +
                 ChildTable.Cols.CHILD_NAME +
@@ -36,6 +37,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ParentTable.Cols.CHILD_UUID  + "," +
                 ParentTable.Cols.PARENT_NAME + "," +
                 ParentTable.Cols.PARENT_PHONE +
+                ")"
+        );
+
+        db.execSQL("create table " + MoneyTable.NAME + "(" +
+                "_id integer primary key autoincrement, " +
+                MoneyTable.Cols.UUID + "," +
+                MoneyTable.Cols.TITLE + "," +
+                MoneyTable.Cols.NOTE + "," +
+                MoneyTable.Cols.VALUE_INCOME + "," +
+                MoneyTable.Cols.VALUE_EXPENSES + "," +
+                MoneyTable.Cols.DATE +
                 ")"
         );
     }

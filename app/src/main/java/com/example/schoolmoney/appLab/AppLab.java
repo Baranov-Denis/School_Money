@@ -12,6 +12,7 @@ import com.example.schoolmoney.database.DataBaseHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,6 @@ public class AppLab {
         sqLiteDatabase.insert(ChildTable.NAME, null, values);
         //  }
     }
-
     private ContentValues getContentValuesForChildrenName(UUID uuid, String childName) {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, uuid.toString());
@@ -62,7 +62,6 @@ public class AppLab {
 
     public void addNote(UUID uuid, String note) {
         ContentValues values = getContentValuesForNote(uuid, note);
-
         sqLiteDatabase.insertWithOnConflict(
                 NoteTable.NAME,       // Имя таблицы
                 null,                // nullColumnHack (обычно null)
@@ -70,13 +69,13 @@ public class AppLab {
                 SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
         );
     }
-
     private ContentValues getContentValuesForNote(UUID uuid, String note) {
         ContentValues values = new ContentValues();
         values.put(NoteTable.Cols.CHILD_UUID, uuid.toString());
         values.put(NoteTable.Cols.NOTE, note);
         return values;
     }
+
 
     public void addNewParent(UUID uuid, String parentName, String parentPhone) {
         ContentValues values = getContentValuesForChildrenName(uuid, parentName, parentPhone);
@@ -88,6 +87,22 @@ public class AppLab {
         values.put(ParentTable.Cols.CHILD_UUID, uuid.toString());
         values.put(ParentTable.Cols.PARENT_NAME, parentName);
         values.put(ParentTable.Cols.PARENT_PHONE, parentPhone);
+        return values;
+    }
+
+    public void addNewIncomeMoney(UUID childUuid, String childName, int value, String date){
+        ContentValues values = getContentValuesFordChildMoney(childUuid,childName, value, date);
+        sqLiteDatabase.insert(MoneyTable.NAME,null, values);
+    }
+
+    private ContentValues getContentValuesFordChildMoney(UUID childUuid, String childName, int value, String date){
+        ContentValues values = new ContentValues();
+        values.put(MoneyTable.Cols.UUID,childUuid.toString());
+        values.put(MoneyTable.Cols.TITLE, "Money from " + childName);
+        values.put(MoneyTable.Cols.NOTE, "");
+        values.put(MoneyTable.Cols.VALUE_INCOME, value);
+        values.put(MoneyTable.Cols.VALUE_EXPENSES,0);
+        values.put(MoneyTable.Cols.DATE,date);
         return values;
     }
 
@@ -121,7 +136,7 @@ public class AppLab {
                 //Инициализирую курсор с родителями
                 parentCursorWrapper = queryParent(ParentTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
-                //Получаю ребёнкп с добавлеными родителями
+                //Получаю ребёнка с добавлеными родителями
                 child = parentCursorWrapper.getChildWithParent(child);
 
 

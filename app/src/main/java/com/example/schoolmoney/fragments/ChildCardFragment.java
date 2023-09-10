@@ -52,9 +52,6 @@ public class ChildCardFragment extends Fragment {
         bindChild();
         setButtons();
         updateUI();
-        if (child.getParentsList().size()>0) {
-            Log.i("!!@$%!%!%%!%", "8888888888888888888888888888888888888 " + child.getParentsList().get(child.getParentsList().size() - 1).getParentName());
-        }
         return view;
     }
 
@@ -79,6 +76,7 @@ public class ChildCardFragment extends Fragment {
         Button saveButton = view.findViewById(R.id.save_button_on_child_card_fragment);
         Button cancelButton = view.findViewById(R.id.cancel_button_on_child_card_fragment);
         FloatingActionButton addParent = view.findViewById(R.id.add_new_parent_fab_button);
+        FloatingActionButton addMoney = view.findViewById(R.id.add_new_child_money_fab_button);
 
 
         saveButton.setOnClickListener(o -> {
@@ -93,6 +91,10 @@ public class ChildCardFragment extends Fragment {
 
         addParent.setOnClickListener(o -> {
             AppFragmentManager.openFragment(CreateNewParentFragment.newInstance(child.getUuid()));
+        });
+
+        addMoney.setOnClickListener(o->{
+            AppFragmentManager.openFragment(AddMoneyFormChildrenFragment.newInstance(child.getUuid()));
         });
     }
 
