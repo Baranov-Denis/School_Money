@@ -26,6 +26,9 @@
     <string name="Value">Value</string>
     <string name="date">date</string>
     <string name="Parent_name">Parent name</string>
+    <string name="Add_spend">Add spend</string>
+    <string name="Enter_note">Enter note</string>
+    <string name="Enter_title">Enter title</string>
 
 
 </resources>

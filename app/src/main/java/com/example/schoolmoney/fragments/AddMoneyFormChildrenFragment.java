@@ -90,7 +90,7 @@ public class AddMoneyFormChildrenFragment extends Fragment {
             // Преобразуем текущую дату в строку с заданным форматом.
             String todayDate = dateFormat.format(currentDate);
 
-            appLab.addNewIncomeMoney(childUUID,appLab.getChildByUUID(childUUID).getChildName(),Integer.parseInt(value.getText().toString()),todayDate);
+            appLab.addNewIncomeMoneyFromChild(childUUID,appLab.getChildByUUID(childUUID).getChildName(),Integer.parseInt(value.getText().toString()),todayDate);
             AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
         });
     }

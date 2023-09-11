@@ -1,6 +1,8 @@
 package com.example.schoolmoney.appLab;
 
-public class Money {
+import java.util.Locale;
+
+public class Money implements Comparable<Money> {
     private String title;
     private String note;
     private String valueIncome;
@@ -45,5 +47,21 @@ public class Money {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+
+    @Override
+    public int compareTo(Money o) {
+        String thisMoneyDate = getDate();
+        String oMoneyDate = o.getDate();
+        if (thisMoneyDate == null && oMoneyDate == null) {
+            return 0; // Оба объекта имеют пустые имена ресурсов
+        } else if (thisMoneyDate == null) {
+            return -1; // Текущий объект имеет пустое имя ресурса
+        } else if (oMoneyDate == null) {
+            return 1; // Объект 'o' имеет пустое имя ресурса
+        } else {
+            return thisMoneyDate.toLowerCase(Locale.ROOT).compareTo(oMoneyDate.toLowerCase(Locale.ROOT));
+        }
     }
 }

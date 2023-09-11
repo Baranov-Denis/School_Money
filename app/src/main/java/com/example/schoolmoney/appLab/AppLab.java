@@ -6,22 +6,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.schoolmoney.database.DataBaseHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class AppLab {
 
     private static AppLab appLab;
-
     private List<Child> childrenList;
-    private SQLiteDatabase sqLiteDatabase;
+    private List<Money> moneyList;
+    private final SQLiteDatabase sqLiteDatabase;
 
 
     private AppLab(Context context) {
@@ -58,8 +56,6 @@ public class AppLab {
         values.put(ChildTable.Cols.CHILD_NAME, childName);
         return values;
     }
-
-
     public void addNote(UUID uuid, String note) {
         ContentValues values = getContentValuesForNote(uuid, note);
         sqLiteDatabase.insertWithOnConflict(
@@ -76,12 +72,10 @@ public class AppLab {
         return values;
     }
 
-
     public void addNewParent(UUID uuid, String parentName, String parentPhone) {
         ContentValues values = getContentValuesForChildrenName(uuid, parentName, parentPhone);
         sqLiteDatabase.insert(ParentTable.NAME, null, values);
     }
-
     private ContentValues getContentValuesForChildrenName(UUID uuid, String parentName, String parentPhone) {
         ContentValues values = new ContentValues();
         values.put(ParentTable.Cols.CHILD_UUID, uuid.toString());
@@ -90,12 +84,11 @@ public class AppLab {
         return values;
     }
 
-    public void addNewIncomeMoney(UUID childUuid, String childName, int value, String date){
-        ContentValues values = getContentValuesFordChildMoney(childUuid,childName, value, date);
+    public void addNewIncomeMoneyFromChild(UUID childUuid, String childName, int value, String date){
+        ContentValues values = getContentValuesForChildMoney(childUuid,childName, value, date);
         sqLiteDatabase.insert(MoneyTable.NAME,null, values);
     }
-
-    private ContentValues getContentValuesFordChildMoney(UUID childUuid, String childName, int value, String date){
+    private ContentValues getContentValuesForChildMoney(UUID childUuid, String childName, int value, String date){
         ContentValues values = new ContentValues();
         values.put(MoneyTable.Cols.UUID,childUuid.toString());
         values.put(MoneyTable.Cols.TITLE, "Money from " + childName);
@@ -106,11 +99,26 @@ public class AppLab {
         return values;
     }
 
+    public void addNewSpendMoneyFrom(String title, String note, String spendValue, String date){
+        UUID uuid = UUID.randomUUID();
+        ContentValues values = getContentValuesForSpendMoney(uuid,title,note, spendValue, date);
+        sqLiteDatabase.insert(MoneyTable.NAME,null, values);
+    }
+    private ContentValues getContentValuesForSpendMoney(UUID moneyUuid, String title, String note, String spendValue, String date){
+        ContentValues values = new ContentValues();
+        values.put(MoneyTable.Cols.UUID,   moneyUuid.toString());
+        values.put(MoneyTable.Cols.TITLE,  title);
+        values.put(MoneyTable.Cols.NOTE, "" + note);
+        values.put(MoneyTable.Cols.VALUE_INCOME, 0);
+        values.put(MoneyTable.Cols.VALUE_EXPENSES,spendValue);
+        values.put(MoneyTable.Cols.DATE,date);
+        return values;
+    }
 
     /**
      * Получаю список детей
      *
-     * @return
+     * @return childrenList
      */
 
     public List<Child> getChildrenList() {
@@ -162,6 +170,43 @@ public class AppLab {
         }
         return childrenList;
     }
+
+    /**
+     * Получаю список денег
+     *
+     * @return moneyList
+     */
+
+    public List<Money> getMoneyList() {
+        moneyList = new ArrayList<>();
+        Money money = null;
+        MoneyCursorWrapper cursorWrapper = null;
+        cursorWrapper = queryMoney(null,null);
+
+
+
+
+        try {
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                //Получаю ребенка из курсора
+                money = cursorWrapper.getMoney();
+
+                if (money != null) {
+                    moneyList.add(money);
+                }
+                cursorWrapper.moveToNext();
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+
+        if (moneyList.size() > 1) {
+            Collections.sort(moneyList);
+        }
+        return moneyList;
+    }
+
 
 
     public Child getChildByUUID(UUID uuid) {
