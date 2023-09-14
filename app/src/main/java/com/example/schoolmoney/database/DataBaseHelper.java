@@ -42,7 +42,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + MoneyTable.NAME + "(" +
                 "_id integer primary key autoincrement, " +
-                MoneyTable.Cols.UUID + "," +
+                MoneyTable.Cols.MONEY_UUID + "," +
+                MoneyTable.Cols.CHILD_UUID + "," +
                 MoneyTable.Cols.TITLE + "," +
                 MoneyTable.Cols.NOTE + "," +
                 MoneyTable.Cols.VALUE_INCOME + "," +

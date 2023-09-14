@@ -23,6 +23,8 @@ import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
+import com.example.schoolmoney.fragments.windows.MoneyFloatingWindowFragment;
+import com.example.schoolmoney.fragments.windows.ParentFloatingWindowsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -39,7 +41,6 @@ public class ChildCardFragment extends Fragment {
     private RecyclerView parentRecycleView;
     private MoneyAdapter moneyAdapter;
     private RecyclerView moneyRecyclerView;
-
 
 
     private View view;
@@ -99,7 +100,7 @@ public class ChildCardFragment extends Fragment {
             AppFragmentManager.openFragment(CreateNewParentFragment.newInstance(child.getUuid()));
         });
 
-        addMoney.setOnClickListener(o->{
+        addMoney.setOnClickListener(o -> {
             AppFragmentManager.openFragment(AddMoneyFormChildrenFragment.newInstance(child.getUuid()));
         });
     }
@@ -108,9 +109,9 @@ public class ChildCardFragment extends Fragment {
      * Recycler для parents
      */
 
-    private class ParentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ParentHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
-       // private LinearLayout layout;
+        // private LinearLayout layout;
         private TextView parentName;
         private TextView parentPhone;
         private Parent parent;
@@ -120,7 +121,7 @@ public class ChildCardFragment extends Fragment {
             super(inflater.inflate(R.layout.parent_item, parent, false));
             parentName = itemView.findViewById(R.id.parent_item_title);
             parentPhone = itemView.findViewById(R.id.parent_phone);
-
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(Parent parent) {
@@ -131,8 +132,12 @@ public class ChildCardFragment extends Fragment {
         }
 
         @Override
-        public void onClick(View v) {
+        public boolean onLongClick(View v) {
+            AppFragmentManager.addFragment(new ParentFloatingWindowsFragment(child, parent.getParentName()));
+            return false;
         }
+
+
     }
 
     private class ParentAdapter extends RecyclerView.Adapter<ParentHolder> {
@@ -168,7 +173,7 @@ public class ChildCardFragment extends Fragment {
      * Recycler для MONEY
      */
 
-    private class MoneyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class MoneyHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         // private LinearLayout layout;
         private TextView moneyValue;
@@ -180,18 +185,21 @@ public class ChildCardFragment extends Fragment {
             super(inflater.inflate(R.layout.money_item, parent, false));
             moneyValue = itemView.findViewById(R.id.money_item_value);
             moneyDate = itemView.findViewById(R.id.money_item_date);
-
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(Money money) {
             this.money = money;
-            moneyValue.setText(money.getValueIncome()+"");
+            moneyValue.setText(money.getValueIncome() + "");
             moneyDate.setText(money.getDate());
 
         }
 
         @Override
-        public void onClick(View v) {
+        public boolean onLongClick(View v) {
+            Log.i("!!@$%!%!%%!%",money.getMoneyUuid().toString());
+            AppFragmentManager.addFragment(new MoneyFloatingWindowFragment(money.getMoneyUuid(), child));
+            return false;
         }
     }
 
@@ -213,7 +221,6 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MoneyHolder holder, int position) {
-
             Money moneyItem = money.get(position);
             holder.bind(moneyItem);
         }
@@ -238,7 +245,7 @@ public class ChildCardFragment extends Fragment {
             parentAdapter.notifyDataSetChanged();
         }
 
-        if(moneyAdapter == null){
+        if (moneyAdapter == null) {
             moneyAdapter = new MoneyAdapter(moneyList);
             moneyRecyclerView.setAdapter(moneyAdapter);
         } else {

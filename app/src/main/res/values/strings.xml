@@ -29,6 +29,7 @@
     <string name="Add_spend">Add spend</string>
     <string name="Enter_note">Enter note</string>
     <string name="Enter_title">Enter title</string>
+    <string name="Delete">Delete</string>
 
 
 </resources>

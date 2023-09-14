@@ -31,7 +31,9 @@ public class DbSchema {
     public static final class MoneyTable {
         public static final String NAME = "Money";
         public static final class Cols {
-            public static final String UUID = "uuid";
+
+            public static final String MONEY_UUID = "money_uuid";
+            public static final String CHILD_UUID = "child_uuid";
             public static final String TITLE = "title";
             public static final String NOTE = "note";
             public static final String VALUE_INCOME = "value_income";

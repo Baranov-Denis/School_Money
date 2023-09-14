@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.schoolmoney.database.DataBaseHelper;
 
@@ -50,12 +51,14 @@ public class AppLab {
         sqLiteDatabase.insert(ChildTable.NAME, null, values);
         //  }
     }
+
     private ContentValues getContentValuesForChildrenName(UUID uuid, String childName) {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, uuid.toString());
         values.put(ChildTable.Cols.CHILD_NAME, childName);
         return values;
     }
+
     public void addNote(UUID uuid, String note) {
         ContentValues values = getContentValuesForNote(uuid, note);
         sqLiteDatabase.insertWithOnConflict(
@@ -65,6 +68,7 @@ public class AppLab {
                 SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
         );
     }
+
     private ContentValues getContentValuesForNote(UUID uuid, String note) {
         ContentValues values = new ContentValues();
         values.put(NoteTable.Cols.CHILD_UUID, uuid.toString());
@@ -76,6 +80,7 @@ public class AppLab {
         ContentValues values = getContentValuesForChildrenName(uuid, parentName, parentPhone);
         sqLiteDatabase.insert(ParentTable.NAME, null, values);
     }
+
     private ContentValues getContentValuesForChildrenName(UUID uuid, String parentName, String parentPhone) {
         ContentValues values = new ContentValues();
         values.put(ParentTable.Cols.CHILD_UUID, uuid.toString());
@@ -84,36 +89,63 @@ public class AppLab {
         return values;
     }
 
-    public void addNewIncomeMoneyFromChild(UUID childUuid, String childName, int value, String date){
-        ContentValues values = getContentValuesForChildMoney(childUuid,childName, value, date);
-        sqLiteDatabase.insert(MoneyTable.NAME,null, values);
+    public void addNewIncomeMoneyFromChild(UUID moneyUuid, UUID childUuid, String childName, int value, String date) {
+        ContentValues values = getContentValuesForChildMoney(moneyUuid, childUuid, childName, value, date);
+        sqLiteDatabase.insert(MoneyTable.NAME, null, values);
     }
-    private ContentValues getContentValuesForChildMoney(UUID childUuid, String childName, int value, String date){
+
+    private ContentValues getContentValuesForChildMoney(UUID moneyUuid, UUID childUuid, String childName, int value, String date) {
         ContentValues values = new ContentValues();
-        values.put(MoneyTable.Cols.UUID,childUuid.toString());
+        values.put(MoneyTable.Cols.MONEY_UUID, moneyUuid.toString());
+        values.put(MoneyTable.Cols.CHILD_UUID, childUuid.toString());
         values.put(MoneyTable.Cols.TITLE, "Money from " + childName);
         values.put(MoneyTable.Cols.NOTE, "");
         values.put(MoneyTable.Cols.VALUE_INCOME, value);
-        values.put(MoneyTable.Cols.VALUE_EXPENSES,0);
-        values.put(MoneyTable.Cols.DATE,date);
+        values.put(MoneyTable.Cols.VALUE_EXPENSES, 0);
+        values.put(MoneyTable.Cols.DATE, date);
         return values;
     }
 
-    public void addNewSpendMoneyFrom(String title, String note, String spendValue, String date){
+    public void addNewSpendMoneyFrom(String title, String note, String spendValue, String date) {
         UUID uuid = UUID.randomUUID();
-        ContentValues values = getContentValuesForSpendMoney(uuid,title,note, spendValue, date);
-        sqLiteDatabase.insert(MoneyTable.NAME,null, values);
+        ContentValues values = getContentValuesForSpendMoney(uuid, title, note, spendValue, date);
+        sqLiteDatabase.insert(MoneyTable.NAME, null, values);
     }
-    private ContentValues getContentValuesForSpendMoney(UUID moneyUuid, String title, String note, String spendValue, String date){
+
+    private ContentValues getContentValuesForSpendMoney(UUID moneyUuid, String title, String note, String spendValue, String date) {
         ContentValues values = new ContentValues();
-        values.put(MoneyTable.Cols.UUID,   moneyUuid.toString());
-        values.put(MoneyTable.Cols.TITLE,  title);
+        values.put(MoneyTable.Cols.MONEY_UUID, moneyUuid.toString());
+        values.put(MoneyTable.Cols.CHILD_UUID,0);
+        values.put(MoneyTable.Cols.TITLE, title);
         values.put(MoneyTable.Cols.NOTE, "" + note);
         values.put(MoneyTable.Cols.VALUE_INCOME, 0);
-        values.put(MoneyTable.Cols.VALUE_EXPENSES,spendValue);
-        values.put(MoneyTable.Cols.DATE,date);
+        values.put(MoneyTable.Cols.VALUE_EXPENSES, spendValue);
+        values.put(MoneyTable.Cols.DATE, date);
         return values;
     }
+
+
+    /**
+     * Удаление данных из базы данных
+     */
+
+    //Удаляет только указанного родителя для указанного ребенка
+    public void deleteParentByIdAndName(UUID childId, String parentName) {
+        String whereClause = ParentTable.Cols.CHILD_UUID + " = ? AND " + ParentTable.Cols.PARENT_NAME + " = ?";
+        String[] whereArgs = new String[]{childId.toString(), parentName};
+        sqLiteDatabase.delete(ParentTable.NAME, whereClause, whereArgs);
+    }
+
+    //Удаляет всех родителей для указанного ребенка
+    public void deleteParentById(UUID childId) {
+        sqLiteDatabase.delete(ParentTable.NAME, ParentTable.Cols.CHILD_UUID + "= ?", new String[]{childId.toString()});
+    }
+
+
+    public void deleteMoneyFromChildCardByMoneyId(UUID moneyUuid){
+        sqLiteDatabase.delete(MoneyTable.NAME, MoneyTable.Cols.MONEY_UUID + "= ?", new String[]{moneyUuid.toString()});
+    }
+
 
     /**
      * Получаю список детей
@@ -150,7 +182,7 @@ public class AppLab {
                 child = parentCursorWrapper.getChildWithParent(child);
 
                 //Инициализирую курсор с деньгами
-                moneyCursorWrapper = queryMoney(MoneyTable.Cols.UUID + " = ?",
+                moneyCursorWrapper = queryMoney(MoneyTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
                 //Получаю ребёнка с добавлеными деньгами
                 child = moneyCursorWrapper.getChildWithMoney(child);
@@ -181,9 +213,7 @@ public class AppLab {
         moneyList = new ArrayList<>();
         Money money = null;
         MoneyCursorWrapper cursorWrapper = null;
-        cursorWrapper = queryMoney(null,null);
-
-
+        cursorWrapper = queryMoney(null, null);
 
 
         try {
@@ -206,7 +236,6 @@ public class AppLab {
         }
         return moneyList;
     }
-
 
 
     public Child getChildByUUID(UUID uuid) {
@@ -258,7 +287,7 @@ public class AppLab {
         return new ParentCursorWrapper(cursor);
     }
 
-    private MoneyCursorWrapper queryMoney(String whereClause, String[] whereArgs){
+    private MoneyCursorWrapper queryMoney(String whereClause, String[] whereArgs) {
         Cursor cursor = sqLiteDatabase.query(
                 MoneyTable.NAME,
                 null,

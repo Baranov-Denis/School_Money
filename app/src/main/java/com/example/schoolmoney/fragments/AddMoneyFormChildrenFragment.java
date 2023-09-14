@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
+import com.example.schoolmoney.appLab.Money;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,12 +35,13 @@ public class AddMoneyFormChildrenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_add_money_form_children,container,false);
+        view = inflater.inflate(R.layout.fragment_add_money_form_children, container, false);
         childUUID = (UUID) getArguments().getSerializable(AddMoneyFormChildrenFragment.CHILD_UUID);
         appLab = AppLab.getAppLab(getContext());
         setButtons();
         return view;
     }
+
     @Override
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class AddMoneyFormChildrenFragment extends Fragment {
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public static AddMoneyFormChildrenFragment newInstance(UUID childUUID){
+    public static AddMoneyFormChildrenFragment newInstance(UUID childUUID) {
         Bundle args = new Bundle();
         args.putSerializable(CHILD_UUID, childUUID);
         AddMoneyFormChildrenFragment addMoneyFormChildrenFragment = new AddMoneyFormChildrenFragment();
@@ -66,8 +68,6 @@ public class AddMoneyFormChildrenFragment extends Fragment {
         Button cancelButton = view.findViewById(R.id.cancel_button_on_add_money_from_child_fragment);
         EditText value = view.findViewById(R.id.enter_money_from_child_edit_text);
         value.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-
 
 
         // Установите фокус на EditText
@@ -90,7 +90,8 @@ public class AddMoneyFormChildrenFragment extends Fragment {
             // Преобразуем текущую дату в строку с заданным форматом.
             String todayDate = dateFormat.format(currentDate);
 
-            appLab.addNewIncomeMoneyFromChild(childUUID,appLab.getChildByUUID(childUUID).getChildName(),Integer.parseInt(value.getText().toString()),todayDate);
+            UUID moneyUuid = UUID.randomUUID();
+            appLab.addNewIncomeMoneyFromChild(moneyUuid, childUUID, appLab.getChildByUUID(childUUID).getChildName(), Integer.parseInt(value.getText().toString()), todayDate);
             AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
         });
     }
