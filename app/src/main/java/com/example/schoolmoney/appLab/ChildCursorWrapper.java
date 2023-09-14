@@ -19,11 +19,13 @@ public class ChildCursorWrapper extends CursorWrapper {
 
         String uuidString = getString(getColumnIndex(ChildTable.Cols.UUID));
         String childNameString = getString(getColumnIndex(ChildTable.Cols.CHILD_NAME));
+        String note = getString(getColumnIndex(ChildTable.Cols.NOTE));
 
         Child child = new Child();
 
         child.setUuid(UUID.fromString(uuidString));
         child.setChildName(childNameString);
+        child.setNote(note);
 
         return child;
     }

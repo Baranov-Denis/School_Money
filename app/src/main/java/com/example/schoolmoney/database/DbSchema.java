@@ -8,6 +8,7 @@ public class DbSchema {
         public static final class Cols {
             public static final String UUID = "uuid";
             public static final String CHILD_NAME = "child_name";
+            public static final String NOTE = "note";
         }
     }
 
@@ -20,13 +21,13 @@ public class DbSchema {
         }
     }
 
-    public static final class NoteTable {
+   /* public static final class NoteTable {
         public static final String NAME = "Notes";
         public static final class Cols {
             public static final String CHILD_UUID = "child_uuid";
             public static final String NOTE = "note";
         }
-    }
+    }*/
 
     public static final class MoneyTable {
         public static final String NAME = "Money";

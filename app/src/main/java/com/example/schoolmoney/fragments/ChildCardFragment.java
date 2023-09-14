@@ -3,19 +3,16 @@ package com.example.schoolmoney.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
@@ -24,7 +21,7 @@ import com.example.schoolmoney.appLab.Child;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
 import com.example.schoolmoney.fragments.windows.MoneyFloatingWindowFragment;
-import com.example.schoolmoney.fragments.windows.ParentFloatingWindowsFragment;
+import com.example.schoolmoney.fragments.windows.ParentFloatingWindowFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -87,7 +84,7 @@ public class ChildCardFragment extends Fragment {
 
 
         saveButton.setOnClickListener(o -> {
-            appLab.addNote(child.getUuid(), noteEditText.getText().toString());
+            appLab.addNote(child, noteEditText.getText().toString());
             goToList();
         });
 
@@ -133,7 +130,7 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            AppFragmentManager.addFragment(new ParentFloatingWindowsFragment(child, parent.getParentName()));
+            AppFragmentManager.addFragment(new ParentFloatingWindowFragment(child, parent.getParentName()));
             return false;
         }
 
@@ -197,7 +194,6 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            Log.i("!!@$%!%!%%!%",money.getMoneyUuid().toString());
             AppFragmentManager.addFragment(new MoneyFloatingWindowFragment(money.getMoneyUuid(), child));
             return false;
         }
@@ -262,7 +258,7 @@ public class ChildCardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        appLab.addNote(child.getUuid(), noteEditText.getText().toString());
+        appLab.addNote(child, noteEditText.getText().toString());
         updateUI();
         // goToList();
     }

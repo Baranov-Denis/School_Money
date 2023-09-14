@@ -22,15 +22,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + ChildTable.NAME + "(" +
                 ChildTable.Cols.UUID + " primary key , " +
-                ChildTable.Cols.CHILD_NAME +
+                ChildTable.Cols.CHILD_NAME + "," +
+                ChildTable.Cols.NOTE +
                 ")"
         );
 
-        db.execSQL("create table " + NoteTable.NAME + "(" +
+      /*  db.execSQL("create table " + NoteTable.NAME + "(" +
                 NoteTable.Cols.CHILD_UUID + " primary key , " +
                 NoteTable.Cols.NOTE +
                 ")"
-        );
+        );*/
 
         db.execSQL("create table " + ParentTable.NAME + "(" +
                 "_id integer primary key autoincrement, " +

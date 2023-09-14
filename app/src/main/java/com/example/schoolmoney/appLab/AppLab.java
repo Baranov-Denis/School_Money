@@ -56,23 +56,25 @@ public class AppLab {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, uuid.toString());
         values.put(ChildTable.Cols.CHILD_NAME, childName);
+        values.put(ChildTable.Cols.NOTE,"");
         return values;
     }
 
-    public void addNote(UUID uuid, String note) {
-        ContentValues values = getContentValuesForNote(uuid, note);
+    public void addNote(Child child, String note) {
+        ContentValues values = getContentValuesForNote(child, note);
         sqLiteDatabase.insertWithOnConflict(
-                NoteTable.NAME,       // Имя таблицы
+                ChildTable.NAME,       // Имя таблицы
                 null,                // nullColumnHack (обычно null)
                 values,              // Данные для вставки
                 SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
         );
     }
 
-    private ContentValues getContentValuesForNote(UUID uuid, String note) {
+    private ContentValues getContentValuesForNote(Child child, String note) {
         ContentValues values = new ContentValues();
-        values.put(NoteTable.Cols.CHILD_UUID, uuid.toString());
-        values.put(NoteTable.Cols.NOTE, note);
+        values.put(ChildTable.Cols.UUID, child.getUuid().toString());
+        values.put(ChildTable.Cols.CHILD_NAME,child.getChildName());
+        values.put(ChildTable.Cols.NOTE, note);
         return values;
     }
 
@@ -169,11 +171,11 @@ public class AppLab {
             while (!cursor.isAfterLast()) {
                 //Получаю ребенка из курсора
                 child = cursor.getChild();
-                //Инициализирую курсор с заметками
+            /*    //Инициализирую курсор с заметками
                 noteCursorWrapper = queryNote(NoteTable.Cols.CHILD_UUID + " = ?",
                         new String[]{child.getUuid().toString()});
                 //Добавляю заметку из курсора
-                child = noteCursorWrapper.getChildWithNote(child);
+                child = noteCursorWrapper.getChildWithNote(child);*/
 
                 //Инициализирую курсор с родителями
                 parentCursorWrapper = queryParent(ParentTable.Cols.CHILD_UUID + " = ?",
@@ -261,7 +263,7 @@ public class AppLab {
     }
 
 
-    private NoteCursorWrapper queryNote(String whereClause, String[] whereArgs) {
+  /*  private NoteCursorWrapper queryNote(String whereClause, String[] whereArgs) {
         Cursor cursor = sqLiteDatabase.query(
                 NoteTable.NAME,
                 null,
@@ -273,7 +275,7 @@ public class AppLab {
         );
         return new NoteCursorWrapper(cursor);
     }
-
+*/
     private ParentCursorWrapper queryParent(String whereClause, String[] whereArgs) {
         Cursor cursor = sqLiteDatabase.query(
                 ParentTable.NAME,

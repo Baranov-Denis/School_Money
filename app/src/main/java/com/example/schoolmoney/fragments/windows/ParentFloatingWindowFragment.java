@@ -15,7 +15,7 @@ import com.example.schoolmoney.appLab.Child;
 import com.example.schoolmoney.fragments.AppFragmentManager;
 import com.example.schoolmoney.fragments.ChildCardFragment;
 
-public class ParentFloatingWindowsFragment extends Fragment {
+public class ParentFloatingWindowFragment extends Fragment {
 
     private View view;
     private AppLab appLab;
@@ -23,7 +23,7 @@ public class ParentFloatingWindowsFragment extends Fragment {
     private Child child;
     private String parentName;
 
-    public ParentFloatingWindowsFragment(Child child, String parentName) {
+    public ParentFloatingWindowFragment(Child child, String parentName) {
         this.child = child;
         this.parentName =parentName;
     }
