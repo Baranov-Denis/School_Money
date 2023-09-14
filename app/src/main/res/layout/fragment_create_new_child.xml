@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreateNewChildFragment"
-
+    android:layout_margin="16dp"
+    android:background="@drawable/floating_window_normal"
     android:orientation="vertical">
 
     <ScrollView
@@ -47,7 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_button_on_create_child_fragment"

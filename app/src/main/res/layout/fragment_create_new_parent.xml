@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".fragments.CreateNewParentFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="@drawable/floating_window_normal"
+    tools:context=".fragments.CreateNewParentFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/BigText"
-        android:text="@string/Enter_parent_name"/>
+            <TextView
+                style="@style/BigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Enter_parent_name" />
 
-    <EditText
-        android:id="@+id/enter_new_parent_name_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        style="@style/BigText"/>
+            <EditText
+                android:id="@+id/enter_new_parent_name_edit_text"
+                style="@style/BigText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/BigText"
-        android:text="@string/Enter_parent_phone"/>
+            <TextView
+                style="@style/BigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Enter_parent_phone" />
 
-    <EditText
-        android:id="@+id/enter_new_parent_phone_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        style="@style/BigText"
-        android:inputType="phone"/>
+            <EditText
+                android:id="@+id/enter_new_parent_phone_edit_text"
+                style="@style/BigText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="phone" />
 
-</LinearLayout>
+        </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:orientation="horizontal"
-        android:gravity="bottom">
+        android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_button_on_create_parents_fragment"
-            android:text="@string/Cancel"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:textStyle="bold"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/recycler_item_blue"
+            android:text="@string/Cancel"
             android:textColor="@color/white"
             android:textSize="26sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_margin="4dp"
-            android:layout_weight="1"/>
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_button_on_create_parents_fragment"
-            android:text="@string/Save"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:textStyle="bold"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/recycler_item_blue"
+            android:text="@string/Save"
             android:textColor="@color/white"
             android:textSize="26sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_margin="4dp"
-            android:layout_weight="1"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

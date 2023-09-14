@@ -35,7 +35,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/chancel_parent_floating_window_button"
+                android:id="@+id/chancel_child_floating_window_button"
                 android:layout_height="60dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -50,7 +50,7 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/delete_parent_floating_window_button"
+                android:id="@+id/delete_child_floating_window_button"
                 android:layout_height="60dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"

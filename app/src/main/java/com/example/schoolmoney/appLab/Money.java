@@ -1,5 +1,8 @@
 package com.example.schoolmoney.appLab;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -10,7 +13,7 @@ public class Money implements Comparable<Money> {
     private String note;
     private String valueIncome;
     private String valueExpenses;
-    private String date;
+    private Date date;
 
 
     public UUID getMoneyUuid() {return moneyUuid;}
@@ -33,17 +36,29 @@ public class Money implements Comparable<Money> {
     public void setValueIncome(String valueIncome) {
         this.valueIncome = valueIncome;
     }
-    public String getValueExpenses() {
-        return valueExpenses;
-    }
+    public String getValueExpenses() {return valueExpenses; }
     public void setValueExpenses(String valueExpenses) {
         this.valueExpenses = valueExpenses;
     }
     public String getDate() {
-        return date;
+        // Установите желаемый локальный язык (например, русский)
+        Locale locale = new Locale("ru", "RU");
+        // Создаем объект SimpleDateFormat для форматирования даты.
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
+        return dateFormat.format(this.date);
     }
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(String dateString) {
+        // Установите желаемый локальный язык (например, русский)
+        Locale locale = new Locale("ru", "RU");
+        // Создаем объект SimpleDateFormat для форматирования даты.
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
+
+        try {
+            this.date = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

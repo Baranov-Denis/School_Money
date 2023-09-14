@@ -1,237 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".fragments.ChildCardFragment"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/child_card"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/child_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/floating_window_normal"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    tools:context=".fragments.ChildCardFragment">
 
-
-
-        <TextView
-            android:id="@+id/child_name_on_child_card_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:textSize="34sp"
-            android:padding="8dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="@string/Child_name" />
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="72dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <TextView
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            android:paddingStart="8dp"
-            style="@style/PlainTextStyle"
-            android:text="@string/Note"/>
+            android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/child_name_on_child_card_text_view"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/Child_name"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:backgroundTint="@android:color/transparent"
+        android:enabled="false"
+        />
+        <ImageButton
+            android:id="@+id/change_child_name_image_button"
+            android:src="@android:drawable/ic_menu_edit"
+            android:layout_margin="8dp"
+            android:layout_gravity="end|center"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:backgroundTint="@android:color/transparent"
+            />
+        </FrameLayout>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="80dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            style="@style/recyclerStyle">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-        <androidx.appcompat.widget.AppCompatEditText
-            style="@style/recyclerStyle"
-            android:id="@+id/note_text_view"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:padding="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cursorVisible="true"
-            android:focusable="true"
-            android:inputType="textCapSentences|textMultiLine"
-            android:maxLines="7"
-            android:background="@drawable/note_background"/>
+            <TextView
+                style="@style/PlainTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:text="@string/Note"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                style="@style/recyclerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="8dp">
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/note_text_view"
+                    style="@style/recyclerStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/note_background"
+                    android:cursorVisible="true"
+                    android:focusable="true"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="7"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
+
+            </LinearLayout>
+
+
+            <!-- Parents -->
+            <TextView
+                style="@style/PlainTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:text="@string/Parents_info"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                style="@style/recyclerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:maxHeight="200dp"
+                android:orientation="vertical"
+                android:layout_margin="8dp"
+                android:tag="my_fragment_tag">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/parent_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".ReceiptsPageFragment">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_new_parent_fab_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_input_add"
+                    app:backgroundTint="@null"
+                    app:tint="@null" />
+
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="66dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/add_parent" />
+
+            </FrameLayout>
+
+
+            <TextView
+                style="@style/PlainTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:text="@string/Money_info"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/fragment_children_list"
+                style="@style/recyclerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:layout_margin="8dp"
+                android:tag="my_fragment_tag">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/child_money_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:context=".ReceiptsPageFragment">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_new_child_money_fab_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_input_add"
+                    app:backgroundTint="@null"
+                    app:tint="@null"
+
+                    />
+
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="66dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/add_money" />
+
+            </FrameLayout>
+
 
         </LinearLayout>
-
-
-<!-- Parents -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            android:paddingStart="8dp"
-            style="@style/PlainTextStyle"
-            android:text="@string/Parents_info"/>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:tag="my_fragment_tag"
-            android:maxHeight="200dp"
-            style="@style/recyclerStyle"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/parent_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".ReceiptsPageFragment"
-                >
-
-            </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_new_parent_fab_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="10dp"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="@null"
-                app:backgroundTint="@null"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/textStyle"
-                android:layout_marginTop="66dp"
-                android:layout_gravity="top|end"
-                android:layout_marginEnd="16dp"
-                android:text="@string/add_parent"/>
-
-        </FrameLayout>
-
-
-
-
-
-
-
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            android:paddingStart="8dp"
-            style="@style/PlainTextStyle"
-            android:text="@string/Money_info"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:id="@+id/fragment_children_list"
-            android:tag="my_fragment_tag"
-            style="@style/recyclerStyle"
-            >
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/child_money_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:context=".ReceiptsPageFragment"
-                >
-            </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_new_child_money_fab_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="10dp"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="@null"
-                app:backgroundTint="@null"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/textStyle"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="66dp"
-                android:layout_gravity="top|end"
-                android:text="@string/add_money"/>
-
-        </FrameLayout>
-
-
-
-    </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:orientation="horizontal"
-        android:gravity="bottom">
+        android:layout_margin="8dp">
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_button_on_child_card_fragment"
-            android:text="@string/Cancel"
             android:layout_width="0dp"
-            android:layout_margin="2dp"
             android:layout_height="60dp"
-            android:textStyle="bold"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/recycler_item_blue"
+            android:text="@string/Cancel"
             android:textColor="@color/white"
             android:textSize="26sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_weight="1"/>
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/save_button_on_child_card_fragment"
-            android:text="@string/Save"
-            android:background="@drawable/recycler_item_blue"
+            android:id="@+id/delete_button_on_child_card_fragment"
             android:layout_width="0dp"
-            android:layout_margin="2dp"
             android:layout_height="60dp"
-            android:textStyle="bold"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/red_button"
+            android:text="@string/Delete"
             android:textColor="@color/white"
             android:textSize="26sp"
-            android:layout_weight="1"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    </FrameLayout>
+</FrameLayout>
 
 

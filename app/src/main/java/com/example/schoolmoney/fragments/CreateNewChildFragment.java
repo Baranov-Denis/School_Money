@@ -70,4 +70,11 @@ public class CreateNewChildFragment extends Fragment {
     private void goToList(){
         AppFragmentManager.openFragment(new ChildrenPageFragment());
     }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppFragmentManager.openFragment(new ChildrenPageFragment());
+    }
 }

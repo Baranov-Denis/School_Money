@@ -41,6 +41,7 @@ public class ExpensesPageFragment extends Fragment {
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
+        AppFragmentManager.closeApp(this);
         return view;
     }
 

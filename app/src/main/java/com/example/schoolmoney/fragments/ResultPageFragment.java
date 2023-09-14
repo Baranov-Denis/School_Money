@@ -32,6 +32,7 @@ private TextView test;
         test = view.findViewById(R.id.test_result);
         AppFragmentManager.createBottomButtons();
         updateUI();
+        AppFragmentManager.closeApp(this);
         return view;
     }
 

@@ -90,11 +90,21 @@ public class AddMoneyFormChildrenFragment extends Fragment {
             // Преобразуем текущую дату в строку с заданным форматом.
             String todayDate = dateFormat.format(currentDate);
 
-            UUID moneyUuid = UUID.randomUUID();
-            appLab.addNewIncomeMoneyFromChild(moneyUuid, childUUID, appLab.getChildByUUID(childUUID).getChildName(), Integer.parseInt(value.getText().toString()), todayDate);
+            if(!value.getText().toString().equals("")) {
+                UUID moneyUuid = UUID.randomUUID();
+                appLab.addNewIncomeMoneyFromChild(moneyUuid, childUUID, appLab.getChildByUUID(childUUID).getChildName(), Integer.parseInt(value.getText().toString()), todayDate);
+                AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+            }
+        });
+
+        cancelButton.setOnClickListener(o -> {
             AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
         });
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+    }
 }

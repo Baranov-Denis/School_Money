@@ -1,5 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/dark_blue" /> <!-- Цвет фона -->
+    <solid android:color="@color/too_dark_blue" /> <!-- Цвет фона -->
     <stroke android:width="2dp" android:color="#000000" /> <!-- - Ширина рамки - Цвет рамки -->
-    <corners android:radius="0dp" /> <!-- Радиус углов -->
+    <corners android:radius="8dp" /> <!-- Радиус углов -->
 </shape>

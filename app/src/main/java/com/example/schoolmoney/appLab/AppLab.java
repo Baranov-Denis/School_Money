@@ -47,9 +47,7 @@ public class AppLab {
     public void addNewChild(String childName) {
         UUID uuid = UUID.randomUUID();
         ContentValues values = getContentValuesForChildrenName(uuid, childName);
-        //   if (getPasswordCardByUUID(uuid) == null) {
         sqLiteDatabase.insert(ChildTable.NAME, null, values);
-        //  }
     }
 
     private ContentValues getContentValuesForChildrenName(UUID uuid, String childName) {
@@ -146,6 +144,56 @@ public class AppLab {
 
     public void deleteMoneyFromChildCardByMoneyId(UUID moneyUuid){
         sqLiteDatabase.delete(MoneyTable.NAME, MoneyTable.Cols.MONEY_UUID + "= ?", new String[]{moneyUuid.toString()});
+    }
+
+    public void deleteChildByUuid(UUID uuid){
+        deleteParentById(uuid);
+        sqLiteDatabase.delete(ChildTable.NAME,ChildTable.Cols.UUID + "= ?" , new String[]{uuid.toString()});
+    }
+
+    /**
+     *
+     *
+     * Замена в базе данных
+     *
+     *
+     *
+     */
+
+    public void changeNoteAndName(Child child, String name, String note) {
+        ContentValues contentValues = getContentValuesForChangeChild(child,name,note);
+        sqLiteDatabase.insertWithOnConflict(
+                ChildTable.NAME,       // Имя таблицы
+                null,                // nullColumnHack (обычно null)
+                contentValues,              // Данные для вставки
+                SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
+        );
+    }
+    private ContentValues getContentValuesForChangeChild(Child child, String name,String note) {
+        ContentValues values = new ContentValues();
+        values.put(ChildTable.Cols.UUID, child.getUuid().toString());
+        values.put(ChildTable.Cols.CHILD_NAME,name);
+        values.put(ChildTable.Cols.NOTE, note);
+        return values;
+    }
+
+
+    public void changeChildName(Child child, String name) {
+        ContentValues values = getContentValuesForChangeName(child, name);
+        sqLiteDatabase.insertWithOnConflict(
+                ChildTable.NAME,       // Имя таблицы
+                null,                // nullColumnHack (обычно null)
+                values,              // Данные для вставки
+                SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
+        );
+    }
+
+    private ContentValues getContentValuesForChangeName(Child child, String name) {
+        ContentValues values = new ContentValues();
+        values.put(ChildTable.Cols.UUID, child.getUuid().toString());
+        values.put(ChildTable.Cols.CHILD_NAME,name);
+        values.put(ChildTable.Cols.NOTE, child.getNote());
+        return values;
     }
 
 
@@ -301,6 +349,7 @@ public class AppLab {
         );
         return new MoneyCursorWrapper(cursor);
     }
+
 
 
 }

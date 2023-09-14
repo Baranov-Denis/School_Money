@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="26sp"
-                android:background="@drawable/recycler_item_blue"
+                android:background="@drawable/red_button"
                 android:layout_margin="4dp"
                 android:text="@string/Delete" />
 

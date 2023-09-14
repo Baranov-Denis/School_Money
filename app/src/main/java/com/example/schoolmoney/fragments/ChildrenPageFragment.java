@@ -42,6 +42,7 @@ public class ChildrenPageFragment extends Fragment {
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
+        AppFragmentManager.closeApp(this);
         return view;
     }
 
@@ -130,5 +131,10 @@ public class ChildrenPageFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.schoolmoney.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,12 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
@@ -20,6 +22,7 @@ import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
+import com.example.schoolmoney.fragments.windows.DeleteChildFloatingWindowFragment;
 import com.example.schoolmoney.fragments.windows.MoneyFloatingWindowFragment;
 import com.example.schoolmoney.fragments.windows.ParentFloatingWindowFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,6 +41,13 @@ public class ChildCardFragment extends Fragment {
     private RecyclerView parentRecycleView;
     private MoneyAdapter moneyAdapter;
     private RecyclerView moneyRecyclerView;
+    private EditText childNameTextView;
+
+    private boolean dontWantToDelete = true;
+
+    private void deleteThisChild() {
+        dontWantToDelete = false;
+    }
 
 
     private View view;
@@ -70,26 +80,29 @@ public class ChildCardFragment extends Fragment {
 
     //Показываю имя ребенка в заголовке
     private void bindChild() {
-        TextView childNameTextView = view.findViewById(R.id.child_name_on_child_card_text_view);
+        childNameTextView = view.findViewById(R.id.child_name_on_child_card_text_view);
         noteEditText = view.findViewById(R.id.note_text_view);
         childNameTextView.setText(child.getChildName());
         noteEditText.setText(child.getNote());
     }
 
     private void setButtons() {
-        Button saveButton = view.findViewById(R.id.save_button_on_child_card_fragment);
+        Button deleteButton = view.findViewById(R.id.delete_button_on_child_card_fragment);
         Button cancelButton = view.findViewById(R.id.cancel_button_on_child_card_fragment);
         FloatingActionButton addParent = view.findViewById(R.id.add_new_parent_fab_button);
         FloatingActionButton addMoney = view.findViewById(R.id.add_new_child_money_fab_button);
+        ImageButton changeNameButton = view.findViewById(R.id.change_child_name_image_button);
 
 
-        saveButton.setOnClickListener(o -> {
-            appLab.addNote(child, noteEditText.getText().toString());
-            goToList();
+        deleteButton.setOnLongClickListener(o -> {
+            deleteThisChild();
+           /* appLab.deleteChildByUuid(child.getUuid());
+            goToList();*/
+            AppFragmentManager.addFragment(new DeleteChildFloatingWindowFragment(child));
+            return true;
         });
 
         cancelButton.setOnClickListener(o -> {
-            noteEditText.setText(child.getNote());
             goToList();
         });
 
@@ -100,7 +113,16 @@ public class ChildCardFragment extends Fragment {
         addMoney.setOnClickListener(o -> {
             AppFragmentManager.openFragment(AddMoneyFormChildrenFragment.newInstance(child.getUuid()));
         });
+
+        changeNameButton.setOnClickListener(o -> {
+            childNameTextView.setEnabled(true);
+            childNameTextView.requestFocus();
+            // Откройте клавиатуру
+            InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(childNameTextView, InputMethodManager.SHOW_IMPLICIT);
+        });
     }
+
 
     /**
      * Recycler для parents
@@ -258,14 +280,18 @@ public class ChildCardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        appLab.addNote(child, noteEditText.getText().toString());
+        if (dontWantToDelete) {
+            appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
+        }
         updateUI();
-        // goToList();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (dontWantToDelete) {
+            appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
+        }
         goToList();
     }
 
