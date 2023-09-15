@@ -31,6 +31,11 @@
     <string name="Enter_title">Enter title</string>
     <string name="Delete">Delete</string>
     <string name="SetDate">Set date</string>
+    <string name="Back">Back</string>
+    <string name="Money_title">Money title</string>
+    <string name="total">Total:</string>
+    <string name="total_receive">Total receive result:</string>
+    <string name="Set_target">Set target</string>
 
 
 </resources>

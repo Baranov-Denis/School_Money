@@ -55,8 +55,10 @@ public class CreateNewChildFragment extends Fragment {
 
         saveButton.setOnClickListener(o -> {
             String childNameString = childName.getText().toString();
-            appLab.addNewChild(childNameString);
-            goToList();
+            if(!childNameString.equals("")) {
+                appLab.addNewChild(childNameString);
+                goToList();
+            }
         });
     }
 

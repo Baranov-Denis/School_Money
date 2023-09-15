@@ -12,8 +12,6 @@ public class NoteCursorWrapper extends CursorWrapper {
     public Child getChildWithNote(Child child){
         if (getCount()>0) {
             moveToFirst();
-         //   String note = getString(getColumnIndex(NoteTable.Cols.NOTE));
-         //   child.setNote(note);
         }
         return child;
     }

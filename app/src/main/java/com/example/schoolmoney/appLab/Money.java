@@ -9,6 +9,7 @@ import java.util.UUID;
 public class Money implements Comparable<Money> {
 
     private UUID moneyUuid;
+    private UUID childUuid;
     private String title;
     private String note;
     private String valueIncome;
@@ -16,14 +17,12 @@ public class Money implements Comparable<Money> {
     private Date date;
 
 
+    public UUID getChildUuid() {return childUuid;}
+    public void setChildUuid(UUID childUuid) {this.childUuid = childUuid;}
     public UUID getMoneyUuid() {return moneyUuid;}
     public void setMoneyUuid(UUID moneyUuid) {this.moneyUuid = moneyUuid;}
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getTitle() {return title;}
+    public void setTitle(String title) {this.title = title;}
     public String getNote() {
         return note;
     }
@@ -73,7 +72,7 @@ public class Money implements Comparable<Money> {
         } else if (oMoneyDate == null) {
             return 1; // Объект 'o' имеет пустое имя ресурса
         } else {
-            return thisMoneyDate.toLowerCase(Locale.ROOT).compareTo(oMoneyDate.toLowerCase(Locale.ROOT));
+            return oMoneyDate.toLowerCase(Locale.ROOT).compareTo(thisMoneyDate.toLowerCase(Locale.ROOT));
         }
     }
 }

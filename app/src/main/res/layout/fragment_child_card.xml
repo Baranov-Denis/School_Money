@@ -37,8 +37,8 @@
         <ImageButton
             android:id="@+id/change_child_name_image_button"
             android:src="@android:drawable/ic_menu_edit"
-            android:layout_margin="8dp"
-            android:layout_gravity="end|center"
+            android:layout_margin="16dp"
+            android:layout_gravity="end"
             android:layout_width="32dp"
             android:layout_height="32dp"
             app:backgroundTint="@android:color/transparent"
@@ -87,6 +87,7 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:maxLines="7"
                     android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black" />
 
@@ -230,7 +231,7 @@
             android:layout_margin="2dp"
             android:layout_weight="1"
             android:background="@drawable/recycler_item_blue"
-            android:text="@string/Cancel"
+            android:text="@string/Back"
             android:textColor="@color/white"
             android:textSize="26sp"
             android:textStyle="bold" />

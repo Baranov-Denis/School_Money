@@ -3,7 +3,7 @@
     <style name="Base.Theme.SchoolMoney" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/too_dark_blue</item>
         <item name="colorAccent">@color/blue</item>
         <item name="android:windowBackground">@color/too_dark_blue</item>
     </style>

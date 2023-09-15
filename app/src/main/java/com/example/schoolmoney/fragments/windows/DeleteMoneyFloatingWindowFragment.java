@@ -12,35 +12,34 @@ import android.widget.Button;
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.fragments.AppFragmentManager;
-import com.example.schoolmoney.fragments.ChildCardFragment;
+import com.example.schoolmoney.fragments.ChildrenPageFragment;
+import com.example.schoolmoney.fragments.ExpensesPageFragment;
 
 import java.util.UUID;
 
 
-public class MoneyFloatingWindowFragment extends Fragment {
-
+public class DeleteMoneyFloatingWindowFragment extends Fragment {
     private View view;
     private AppLab appLab;
-    private UUID moneyUuid;
-    private Child child;
+    private Money money;
 
-    public MoneyFloatingWindowFragment(UUID moneyUuid, Child child){
-        this.moneyUuid = moneyUuid;
-        this.child = child;
+    public DeleteMoneyFloatingWindowFragment(Money money) {
+        this.money = money;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_money_floating_window, container, false);
+        view = inflater.inflate(R.layout.fragment_delete_money_floating_window, container, false);
         appLab = AppLab.getAppLab(getContext());
         setButtons();
         return view;
     }
 
     private void setButtons() {
-        Button cancelButton = view.findViewById(R.id.chancel_money_floating_window_button);
+        Button cancelButton = view.findViewById(R.id.chancel_delete_money_floating_window_button);
         Button deleteButton = view.findViewById(R.id.delete_money_floating_window_button);
 
         cancelButton.setOnClickListener(o -> {
@@ -48,8 +47,8 @@ public class MoneyFloatingWindowFragment extends Fragment {
         });
 
         deleteButton.setOnLongClickListener(ol -> {
-            appLab.deleteMoneyByMoneyId(moneyUuid);
-            AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()));
+            appLab.deleteMoneyByMoneyId(money.getMoneyUuid());
+            AppFragmentManager.openFragment(new ExpensesPageFragment());
             return true;
         });
     }

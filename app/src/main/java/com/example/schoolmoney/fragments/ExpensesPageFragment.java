@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,7 @@ public class ExpensesPageFragment extends Fragment {
             moneyValue = itemView.findViewById(R.id.spend_money_item_value);
             moneyDate = itemView.findViewById(R.id.spend_money_item_date);
             moneyTitle = itemView.findViewById(R.id.spend_money_item_title);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Money money) {
@@ -89,7 +91,11 @@ public class ExpensesPageFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            Log.i("!!@$%!%!%%!%","-----------------------------------------5675477");
+           // AppFragmentManager.openFragment(new ChildrenPageFragment());
+            AppFragmentManager.openFragment(MoneyCardFragment.newInstance(money.getMoneyUuid()));
         }
+
     }
 
     private class MoneyAdapter extends RecyclerView.Adapter<MoneyHolder> {

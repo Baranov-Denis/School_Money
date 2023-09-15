@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,12 +78,14 @@ public class ChildrenPageFragment extends Fragment {
             super(inflater.inflate(R.layout.child_item, parent, false));
             childNameTextView = itemView.findViewById(R.id.child_item_title);
             childMoneyTextView = itemView.findViewById(R.id.value);
-            //layout = itemView.findViewById(R.id.child_item_row);
+
             itemView.setOnClickListener(this);
         }
 
         public void bind(Child child) {
             if (child.getChildName() != null) {
+                LinearLayout layout = itemView.findViewById(R.id.child_item_row);
+
                 this.child = child;
                 childNameTextView.setText(child.getChildName());
                 int childMoney = 0;
@@ -91,6 +94,10 @@ public class ChildrenPageFragment extends Fragment {
                     childMoney += Integer.parseInt(money.getValueIncome());
                 }
                 childMoneyTextView.setText(childMoney+"");
+                Log.i("!!@$%!%!%%!%","--"+appLab.getSettings().getMoneyTarget()+"--");
+                if(childMoney<Integer.parseInt(appLab.getSettings().getMoneyTarget())){
+                    layout.setBackgroundResource(R.drawable.red_button);
+                }
             }
         }
 

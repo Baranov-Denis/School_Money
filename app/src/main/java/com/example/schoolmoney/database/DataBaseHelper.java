@@ -27,11 +27,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
 
-      /*  db.execSQL("create table " + NoteTable.NAME + "(" +
-                NoteTable.Cols.CHILD_UUID + " primary key , " +
-                NoteTable.Cols.NOTE +
-                ")"
-        );*/
 
         db.execSQL("create table " + ParentTable.NAME + "(" +
                 "_id integer primary key autoincrement, " +
@@ -42,14 +37,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("create table " + MoneyTable.NAME + "(" +
-                "_id integer primary key autoincrement, " +
-                MoneyTable.Cols.MONEY_UUID + "," +
+                MoneyTable.Cols.MONEY_UUID + " primary key , " +
                 MoneyTable.Cols.CHILD_UUID + "," +
                 MoneyTable.Cols.TITLE + "," +
                 MoneyTable.Cols.NOTE + "," +
                 MoneyTable.Cols.VALUE_INCOME + "," +
                 MoneyTable.Cols.VALUE_EXPENSES + "," +
                 MoneyTable.Cols.DATE +
+                ")"
+        );
+
+        db.execSQL("create table " + SettingsTable.NAME + "(" +
+                SettingsTable.Cols.SETTINGS_ID + " primary key , " +
+                SettingsTable.Cols.MONEY_TARGET +
                 ")"
         );
     }

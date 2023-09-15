@@ -42,12 +42,14 @@ public class MoneyCursorWrapper extends CursorWrapper {
         Money money = new Money();
         String title = getString(getColumnIndex(DbSchema.MoneyTable.Cols.TITLE));
         String moneyUuid = getString(getColumnIndex(DbSchema.MoneyTable.Cols.MONEY_UUID));
+        String childUuid = getString(getColumnIndex(DbSchema.MoneyTable.Cols.CHILD_UUID));
         String note = getString(getColumnIndex(DbSchema.MoneyTable.Cols.NOTE));
         String valueIncome = getString(getColumnIndex(DbSchema.MoneyTable.Cols.VALUE_INCOME));
         String valueExpenses = getString(getColumnIndex(DbSchema.MoneyTable.Cols.VALUE_EXPENSES));
         String date = getString(getColumnIndex(DbSchema.MoneyTable.Cols.DATE));
         money.setTitle(title);
         money.setMoneyUuid(UUID.fromString(moneyUuid));
+        money.setChildUuid(UUID.fromString(childUuid));
         money.setNote(note);
         money.setValueIncome(valueIncome);
         money.setValueExpenses(valueExpenses);

@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.schoolmoney.database.DataBaseHelper;
 
@@ -20,6 +19,8 @@ public class AppLab {
     private static AppLab appLab;
     private List<Child> childrenList;
     private List<Money> moneyList;
+
+    private Settings settings;
     private final SQLiteDatabase sqLiteDatabase;
 
 
@@ -54,7 +55,7 @@ public class AppLab {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, uuid.toString());
         values.put(ChildTable.Cols.CHILD_NAME, childName);
-        values.put(ChildTable.Cols.NOTE,"");
+        values.put(ChildTable.Cols.NOTE, "");
         return values;
     }
 
@@ -71,7 +72,7 @@ public class AppLab {
     private ContentValues getContentValuesForNote(Child child, String note) {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, child.getUuid().toString());
-        values.put(ChildTable.Cols.CHILD_NAME,child.getChildName());
+        values.put(ChildTable.Cols.CHILD_NAME, child.getChildName());
         values.put(ChildTable.Cols.NOTE, note);
         return values;
     }
@@ -115,7 +116,7 @@ public class AppLab {
     private ContentValues getContentValuesForSpendMoney(UUID moneyUuid, String title, String note, String spendValue, String date) {
         ContentValues values = new ContentValues();
         values.put(MoneyTable.Cols.MONEY_UUID, moneyUuid.toString());
-        values.put(MoneyTable.Cols.CHILD_UUID,0);
+        values.put(MoneyTable.Cols.CHILD_UUID, UUID.randomUUID().toString());
         values.put(MoneyTable.Cols.TITLE, title);
         values.put(MoneyTable.Cols.NOTE, "" + note);
         values.put(MoneyTable.Cols.VALUE_INCOME, 0);
@@ -123,6 +124,8 @@ public class AppLab {
         values.put(MoneyTable.Cols.DATE, date);
         return values;
     }
+
+
 
 
     /**
@@ -142,26 +145,21 @@ public class AppLab {
     }
 
 
-    public void deleteMoneyFromChildCardByMoneyId(UUID moneyUuid){
+    public void deleteMoneyByMoneyId(UUID moneyUuid) {
         sqLiteDatabase.delete(MoneyTable.NAME, MoneyTable.Cols.MONEY_UUID + "= ?", new String[]{moneyUuid.toString()});
     }
 
-    public void deleteChildByUuid(UUID uuid){
+    public void deleteChildByUuid(UUID uuid) {
         deleteParentById(uuid);
-        sqLiteDatabase.delete(ChildTable.NAME,ChildTable.Cols.UUID + "= ?" , new String[]{uuid.toString()});
+        sqLiteDatabase.delete(ChildTable.NAME, ChildTable.Cols.UUID + "= ?", new String[]{uuid.toString()});
     }
 
     /**
-     *
-     *
      * Замена в базе данных
-     *
-     *
-     *
      */
 
     public void changeNoteAndName(Child child, String name, String note) {
-        ContentValues contentValues = getContentValuesForChangeChild(child,name,note);
+        ContentValues contentValues = getContentValuesForChangeChild(child, name, note);
         sqLiteDatabase.insertWithOnConflict(
                 ChildTable.NAME,       // Имя таблицы
                 null,                // nullColumnHack (обычно null)
@@ -169,30 +167,51 @@ public class AppLab {
                 SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
         );
     }
-    private ContentValues getContentValuesForChangeChild(Child child, String name,String note) {
+
+    private ContentValues getContentValuesForChangeChild(Child child, String name, String note) {
         ContentValues values = new ContentValues();
         values.put(ChildTable.Cols.UUID, child.getUuid().toString());
-        values.put(ChildTable.Cols.CHILD_NAME,name);
+        values.put(ChildTable.Cols.CHILD_NAME, name);
         values.put(ChildTable.Cols.NOTE, note);
         return values;
     }
 
-
-    public void changeChildName(Child child, String name) {
-        ContentValues values = getContentValuesForChangeName(child, name);
+    public void changeMoneyTitleAndNote(Money money, String title, String note) {
+        ContentValues contentValues = getContentValuesForChangeSpendMoney(money, title, note);
         sqLiteDatabase.insertWithOnConflict(
-                ChildTable.NAME,       // Имя таблицы
-                null,                // nullColumnHack (обычно null)
-                values,              // Данные для вставки
-                SQLiteDatabase.CONFLICT_REPLACE // Заменить существующую запись при конфликте
+                MoneyTable.NAME,
+                null,
+                contentValues,
+                SQLiteDatabase.CONFLICT_REPLACE
         );
     }
 
-    private ContentValues getContentValuesForChangeName(Child child, String name) {
+    private ContentValues getContentValuesForChangeSpendMoney(Money money, String title, String note) {
         ContentValues values = new ContentValues();
-        values.put(ChildTable.Cols.UUID, child.getUuid().toString());
-        values.put(ChildTable.Cols.CHILD_NAME,name);
-        values.put(ChildTable.Cols.NOTE, child.getNote());
+        values.put(MoneyTable.Cols.MONEY_UUID, money.getMoneyUuid().toString());
+        values.put(MoneyTable.Cols.VALUE_INCOME, money.getValueIncome());
+        values.put(MoneyTable.Cols.VALUE_EXPENSES, money.getValueExpenses());
+        values.put(MoneyTable.Cols.CHILD_UUID, money.getChildUuid().toString());
+        values.put(MoneyTable.Cols.DATE, money.getDate());
+        values.put(MoneyTable.Cols.TITLE, title);
+        values.put(MoneyTable.Cols.NOTE, note);
+        return values;
+    }
+
+    public void addSettings(String moneyTarget){
+        ContentValues contentValues = getSettingContentValues(moneyTarget);
+        sqLiteDatabase.insertWithOnConflict(
+                SettingsTable.NAME,
+                null,
+                contentValues,
+                SQLiteDatabase.CONFLICT_REPLACE
+        );
+    }
+
+    private ContentValues getSettingContentValues(String moneyTarget) {
+        ContentValues values = new ContentValues();
+        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
+        values.put(SettingsTable.Cols.MONEY_TARGET,moneyTarget);
         return values;
     }
 
@@ -269,7 +288,7 @@ public class AppLab {
         try {
             cursorWrapper.moveToFirst();
             while (!cursorWrapper.isAfterLast()) {
-                //Получаю ребенка из курсора
+                //Получаю money из курсора
                 money = cursorWrapper.getMoney();
 
                 if (money != null) {
@@ -285,6 +304,25 @@ public class AppLab {
             Collections.sort(moneyList);
         }
         return moneyList;
+    }
+
+    public Settings getSettings(){
+        settings = new Settings();
+        SettingsCursorWrapper settingsCursorWrapper = null;
+        settingsCursorWrapper = querySettings(null,null);
+
+        try {
+            settingsCursorWrapper.moveToFirst();
+           // while (!settingsCursorWrapper.isAfterLast()) {
+                //Получаю money из курсора
+                settings = settingsCursorWrapper.getSettings();
+
+             //   settingsCursorWrapper.moveToNext();
+          //  }
+        } finally {
+            settingsCursorWrapper.close();
+        }
+        return settings;
     }
 
 
@@ -310,20 +348,28 @@ public class AppLab {
         return new ChildCursorWrapper(cursor);
     }
 
-
-  /*  private NoteCursorWrapper queryNote(String whereClause, String[] whereArgs) {
-        Cursor cursor = sqLiteDatabase.query(
-                NoteTable.NAME,
-                null,
-                whereClause,
-                whereArgs,
-                null,
-                null,
-                null
-        );
-        return new NoteCursorWrapper(cursor);
+    public Money getMoneyById(UUID moneyUuid) {
+        moneyList = getMoneyList();
+        for (Money money : moneyList) {
+            if (money.getMoneyUuid().equals(moneyUuid)) return money;
+        }
+        return null;
     }
-*/
+
+
+    /*  private NoteCursorWrapper queryNote(String whereClause, String[] whereArgs) {
+          Cursor cursor = sqLiteDatabase.query(
+                  NoteTable.NAME,
+                  null,
+                  whereClause,
+                  whereArgs,
+                  null,
+                  null,
+                  null
+          );
+          return new NoteCursorWrapper(cursor);
+      }
+  */
     private ParentCursorWrapper queryParent(String whereClause, String[] whereArgs) {
         Cursor cursor = sqLiteDatabase.query(
                 ParentTable.NAME,
@@ -350,6 +396,18 @@ public class AppLab {
         return new MoneyCursorWrapper(cursor);
     }
 
+    private SettingsCursorWrapper querySettings(String whereClause, String[] whereArgs){
+        Cursor cursor = sqLiteDatabase.query(
+                SettingsTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new SettingsCursorWrapper(cursor);
+    }
 
 
 }
