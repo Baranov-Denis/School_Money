@@ -94,9 +94,11 @@ public class ChildrenPageFragment extends Fragment {
                     childMoney += Integer.parseInt(money.getValueIncome());
                 }
                 childMoneyTextView.setText(childMoney+"");
-                Log.i("!!@$%!%!%%!%","--"+appLab.getSettings().getMoneyTarget()+"--");
+
                 if(childMoney<Integer.parseInt(appLab.getSettings().getMoneyTarget())){
                     layout.setBackgroundResource(R.drawable.red_button);
+                }else {
+                    layout.setBackgroundResource(R.drawable.recycler_item_blue);
                 }
             }
         }

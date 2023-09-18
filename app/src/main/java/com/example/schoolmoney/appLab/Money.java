@@ -57,11 +57,14 @@ public class Money implements Comparable<Money> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
+    public Date getOriginalDate() {
+        return date;
     }
 
 
-    @Override
+  /*  @Override
     public int compareTo(Money o) {
         String thisMoneyDate = getDate();
         String oMoneyDate = o.getDate();
@@ -74,5 +77,23 @@ public class Money implements Comparable<Money> {
         } else {
             return oMoneyDate.toLowerCase(Locale.ROOT).compareTo(thisMoneyDate.toLowerCase(Locale.ROOT));
         }
-    }
+    }*/
+  @Override
+  public int compareTo(Money o) {
+      Date thisMoneyDate = getOriginalDate();
+      Date oMoneyDate = o.getOriginalDate();
+
+      // Проверка на null для безопасности
+      if (thisMoneyDate == null && oMoneyDate == null) {
+          return 0; // Оба объекта имеют пустые даты
+      } else if (thisMoneyDate == null) {
+          return -1; // Текущий объект имеет пустую дату
+      } else if (oMoneyDate == null) {
+          return 1; // Объект 'o' имеет пустую дату
+      } else {
+          // Сравнение дат
+          return oMoneyDate.compareTo(thisMoneyDate);
+      }
+  }
+
 }
