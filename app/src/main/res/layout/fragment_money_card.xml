@@ -57,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -65,17 +65,18 @@
                 style="@style/PlainTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="@string/Note"
                 android:textColor="@color/white"
-                android:textSize="26sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 style="@style/recyclerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="vertical">
 
 
@@ -83,7 +84,7 @@
                     android:id="@+id/money_card_note"
                     style="@style/recyclerStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_marginHorizontal="8dp"
                     android:background="@drawable/note_background"
                     android:cursorVisible="true"
