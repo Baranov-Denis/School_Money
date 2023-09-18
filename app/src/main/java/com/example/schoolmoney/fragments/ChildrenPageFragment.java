@@ -31,6 +31,8 @@ public class ChildrenPageFragment extends Fragment {
     private AppLab appLab;
     private ChildAdapter childAdapter;
     private RecyclerView childrenRecycleView;
+    private LinearLayoutManager layoutManager;
+
 
 
     @Override
@@ -40,6 +42,11 @@ public class ChildrenPageFragment extends Fragment {
         childrenRecycleView = view.findViewById(R.id.child_recycler_view);
         childrenRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         appLab = AppLab.getAppLab(getContext());
+        layoutManager = (LinearLayoutManager) childrenRecycleView.getLayoutManager();
+        if (layoutManager != null) {
+            layoutManager.scrollToPosition(appLab.getChildPosition());
+        }
+        appLab.setChildPosition(0);
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
@@ -71,14 +78,13 @@ public class ChildrenPageFragment extends Fragment {
         private final TextView childNameTextView;
         private final TextView childMoneyTextView;
         //private final LinearLayout layout;
-
+        int position;
         private Child child;
 
         public ChildHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.child_item, parent, false));
             childNameTextView = itemView.findViewById(R.id.child_item_title);
             childMoneyTextView = itemView.findViewById(R.id.value);
-
             itemView.setOnClickListener(this);
         }
 
@@ -90,14 +96,14 @@ public class ChildrenPageFragment extends Fragment {
                 childNameTextView.setText(child.getChildName());
                 int childMoney = 0;
                 ArrayList<Money> moneyList = (ArrayList<Money>) child.getMoneyList();
-                for(Money money: moneyList){
+                for (Money money : moneyList) {
                     childMoney += Integer.parseInt(money.getValueIncome());
                 }
-                childMoneyTextView.setText(childMoney+"");
+                childMoneyTextView.setText(childMoney + "");
 
-                if(childMoney<Integer.parseInt(appLab.getSettings().getMoneyTarget())){
+                if (childMoney < Integer.parseInt(appLab.getSettings().getMoneyTarget())) {
                     layout.setBackgroundResource(R.drawable.red_button);
-                }else {
+                } else {
                     layout.setBackgroundResource(R.drawable.recycler_item_blue);
                 }
             }
@@ -105,6 +111,7 @@ public class ChildrenPageFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            appLab.setChildPosition(layoutManager.findFirstVisibleItemPosition());
             AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()));
         }
     }

@@ -19,10 +19,26 @@ public class AppLab {
     private static AppLab appLab;
     private List<Child> childrenList;
     private List<Money> moneyList;
-
     private Settings settings;
     private final SQLiteDatabase sqLiteDatabase;
+    private int childPosition;
+    private int moneyPosition;
 
+    public int getMoneyPosition() {
+        return moneyPosition;
+    }
+
+    public void setMoneyPosition(int moneyPosition) {
+        this.moneyPosition = moneyPosition;
+    }
+
+    public int getChildPosition() {
+        return childPosition;
+    }
+
+    public void setChildPosition(int childPosition) {
+        this.childPosition = childPosition;
+    }
 
     private AppLab(Context context) {
         context = context.getApplicationContext();

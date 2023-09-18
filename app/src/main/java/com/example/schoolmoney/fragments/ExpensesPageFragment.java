@@ -28,6 +28,7 @@ public class ExpensesPageFragment extends Fragment {
     private AppLab appLab;
     private RecyclerView moneyRecyclerView;
     private MoneyAdapter moneyAdapter;
+    private LinearLayoutManager layoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,10 +36,12 @@ public class ExpensesPageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_expenses_page, container, false);
         moneyRecyclerView = view.findViewById(R.id.spend_money_recycler_view);
         moneyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-      //  childrenRecycleView = view.findViewById(R.id.child_recycler_view);
-      // childrenRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         appLab = AppLab.getAppLab(getContext());
+        layoutManager = (LinearLayoutManager) moneyRecyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            layoutManager.scrollToPosition(appLab.getMoneyPosition());
+        }
+        appLab.setMoneyPosition(0);
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
@@ -91,8 +94,7 @@ public class ExpensesPageFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Log.i("!!@$%!%!%%!%","-----------------------------------------5675477");
-           // AppFragmentManager.openFragment(new ChildrenPageFragment());
+            appLab.setMoneyPosition(layoutManager.findFirstVisibleItemPosition());
             AppFragmentManager.openFragment(MoneyCardFragment.newInstance(money.getMoneyUuid()));
         }
 
