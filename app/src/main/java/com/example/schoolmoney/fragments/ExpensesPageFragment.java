@@ -57,13 +57,6 @@ public class ExpensesPageFragment extends Fragment {
     }
 
 
-
-
-
-
-
-
-
     /**
      * Recycler для MONEY
      */
@@ -88,7 +81,7 @@ public class ExpensesPageFragment extends Fragment {
         public void bind(Money money) {
             this.money = money;
             moneyTitle.setText(money.getTitle());
-            moneyValue.setText(money.getValueExpenses()+"");
+            moneyValue.setText(money.getValueExpenses() + "");
             moneyDate.setText(money.getDate());
         }
 
@@ -106,8 +99,8 @@ public class ExpensesPageFragment extends Fragment {
 
         public MoneyAdapter(List<Money> money) {
             List<Money> onlySpendMoney = new ArrayList<>();
-            for(Money moneyIt: money){
-                if(Integer.parseInt(moneyIt.getValueExpenses())>0) {
+            for (Money moneyIt : money) {
+                if (Integer.parseInt(moneyIt.getValueExpenses()) > 0) {
                     onlySpendMoney.add(moneyIt);
                 }
             }
@@ -127,7 +120,7 @@ public class ExpensesPageFragment extends Fragment {
 
             Money moneyItem = money.get(position);
 
-            if(Integer.parseInt(moneyItem.getValueExpenses())>0) {
+            if (Integer.parseInt(moneyItem.getValueExpenses()) > 0) {
                 holder.bind(moneyItem);
             }
         }

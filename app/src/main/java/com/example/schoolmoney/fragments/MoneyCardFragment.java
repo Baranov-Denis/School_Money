@@ -3,8 +3,13 @@ package com.example.schoolmoney.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +49,32 @@ public class MoneyCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_money_card, container, false);
+        assert getArguments() != null;
         UUID moneyUUID = (UUID) getArguments().getSerializable(MoneyCardFragment.MONEY_UUID);
         appLab = AppLab.getAppLab(getActivity());
         money = appLab.getMoneyById(moneyUUID);
         bindMoney();
         setButtons();
-        updateUI();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Получите активность, в которой находится фрагмент
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+
+        // Включите обработку кнопки "Назад"
+        activity.getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Здесь вы можете определить, что должно произойти при нажатии кнопки "Назад"
+                // Например, выполнить какое-то действие или перейти на другой фрагмент
+                // Если вы хотите, чтобы кнопка "Назад" просто закрыла фрагмент, можно вызвать
+                // метод requireActivity().onBackPressed().
+                goToList();
+            }
+        });
     }
 
     public static MoneyCardFragment newInstance(UUID moneyUUID) {
@@ -61,9 +85,7 @@ public class MoneyCardFragment extends Fragment {
         return moneyCardFragment;
     }
 
-    private void updateUI() {
 
-    }
 
     private void setButtons() {
         cancelButton = view.findViewById(R.id.cancel_button_on_money_card_fragment);
@@ -108,7 +130,7 @@ public class MoneyCardFragment extends Fragment {
         if (dontWantToDelete) {
             appLab.changeMoneyTitleAndNote(money, moneyTitle.getText().toString(), moneyNote.getText().toString());
         }
-        updateUI();
+
     }
 
     @Override

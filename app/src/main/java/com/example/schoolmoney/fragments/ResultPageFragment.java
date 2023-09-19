@@ -51,7 +51,6 @@ private Settings settings;
 
     private void updateUI() {
         appLab = AppLab.getAppLab(getActivity());
-        List<Money> moneyList = appLab.getMoneyList();
         totalResult.setText(getTotalResultMoney());
         receiveResult.setText(getTotalReceive());
 

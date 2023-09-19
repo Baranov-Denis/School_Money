@@ -3,11 +3,15 @@ package com.example.schoolmoney.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +46,8 @@ public class ChildCardFragment extends Fragment {
     private MoneyAdapter moneyAdapter;
     private RecyclerView moneyRecyclerView;
     private EditText childNameTextView;
-
     private boolean dontWantToDelete = true;
+
 
     private void deleteThisChild() {
         dontWantToDelete = false;
@@ -69,6 +73,24 @@ public class ChildCardFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Получите активность, в которой находится фрагмент
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+
+        // Включите обработку кнопки "Назад"
+        activity.getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Здесь вы можете определить, что должно произойти при нажатии кнопки "Назад"
+                // Например, выполнить какое-то действие или перейти на другой фрагмент
+                // Если вы хотите, чтобы кнопка "Назад" просто закрыла фрагмент, можно вызвать
+                // метод requireActivity().onBackPressed().
+                goToList();
+            }
+        });
+    }
 
     public static ChildCardFragment newInstance(UUID childUUID) {
         Bundle args = new Bundle();
@@ -96,8 +118,6 @@ public class ChildCardFragment extends Fragment {
 
         deleteButton.setOnLongClickListener(o -> {
             deleteThisChild();
-           /* appLab.deleteChildByUuid(child.getUuid());
-            goToList();*/
             AppFragmentManager.addFragment(new DeleteChildFloatingWindowFragment(child));
             return true;
         });
@@ -279,15 +299,32 @@ public class ChildCardFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Log.i(AppLab.GLOBAL_TAG,"onPause " + appLab.getChildPosition());
         super.onPause();
-        if (dontWantToDelete) {
+       if (dontWantToDelete) {
             appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
         }
         updateUI();
+
+        Log.i(AppLab.GLOBAL_TAG,"onPause2 " + appLab.getChildPosition());
+    }
+
+    @Override
+    public void onStop() {
+        Log.i(AppLab.GLOBAL_TAG,"onStop 1 " + appLab.getChildPosition());
+        super.onStop();
+        Log.i(AppLab.GLOBAL_TAG,"onStop 2 " + appLab.getChildPosition());
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.i(AppLab.GLOBAL_TAG,"onDestroyView " + appLab.getChildPosition());
+        super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
+        Log.i(AppLab.GLOBAL_TAG,"onDestroy " + appLab.getChildPosition());
         super.onDestroy();
         if (dontWantToDelete) {
             appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
@@ -297,12 +334,14 @@ public class ChildCardFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.i(AppLab.GLOBAL_TAG,"onResume  " + appLab.getChildPosition());
         updateUI();
         super.onResume();
     }
 
 
     private void goToList() {
+        Log.i(AppLab.GLOBAL_TAG,"go to list  " + appLab.getChildPosition());
         AppFragmentManager.openFragment(new ChildrenPageFragment());
     }
 }
