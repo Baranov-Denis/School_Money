@@ -39,6 +39,7 @@
     <string name="Settings">Settings</string>
     <string name="Backup_is_successful_to_phone_storage">Backup is successful to phone storage!!!</string>
     <string name="Backup_is_failed">Backup is failed!!!</string>
+    <string name="Send_to_dropbox">Send to Dropbox</string>
 
 
 </resources>
