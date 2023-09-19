@@ -1,14 +1,24 @@
 package com.example.schoolmoney.appLab;
 
+
 import com.example.schoolmoney.database.DbSchema.*;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.util.Log;
 
 import com.example.schoolmoney.database.DataBaseHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +26,7 @@ import java.util.UUID;
 
 public class AppLab {
 
+    public static final String GLOBAL_TAG = "global_tag";
     private static AppLab appLab;
     private List<Child> childrenList;
     private List<Money> moneyList;
@@ -425,5 +436,44 @@ public class AppLab {
         return new SettingsCursorWrapper(cursor);
     }
 
+
+    public boolean backUp() {
+        try {
+            File data = Environment.getDataDirectory();
+            String state = Environment.getExternalStorageState();
+            // Проверка и запрос разрешений
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                String currentDBPath = "/data/com.example.schoolmoney/databases/app_database";
+                File currentDB = new File(data, currentDBPath);
+                File on = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOCUMENTS), "School Money");
+                on.mkdirs();
+                // Имя файла
+                LocalDate currentDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+                String formattedDate = currentDate.format(formatter);
+                StringBuilder outputFileName = new StringBuilder("/school_money_");
+                outputFileName.append(formattedDate);
+                outputFileName.append(".db");
+                File backupDBFile = new File(on, outputFileName.toString());
+                if (currentDB.exists()) {
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDBFile).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    return true; // Успешное резервное копирование
+                }
+            } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+                Log.i(AppLab.GLOBAL_TAG, "sdcard mounted readonly");
+            } else {
+                Log.i(AppLab.GLOBAL_TAG, "sdcard state: " + state);
+            }
+        } catch (IOException e) {
+            Log.i(AppLab.GLOBAL_TAG, "Error during backup: " + e.getMessage());
+        }
+        return false; // Ошибка резервного копирования
+    }
 
 }

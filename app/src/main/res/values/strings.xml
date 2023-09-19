@@ -36,6 +36,9 @@
     <string name="total">Total:</string>
     <string name="total_receive">Total receive result:</string>
     <string name="Set_target">Set target</string>
+    <string name="Settings">Settings</string>
+    <string name="Backup_is_successful_to_phone_storage">Backup is successful to phone storage!!!</string>
+    <string name="Backup_is_failed">Backup is failed!!!</string>
 
 
 </resources>

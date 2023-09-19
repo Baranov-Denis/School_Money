@@ -27,6 +27,7 @@ private TextView totalResult;
 private TextView receiveResult;
 private EditText targetMoneyEdit;
 private Button setTargetButton;
+private Button goToSettingsButton;
 private Settings settings;
 
     @Override
@@ -38,6 +39,7 @@ private Settings settings;
         receiveResult = view.findViewById(R.id.all_receive_result);
         targetMoneyEdit = view.findViewById(R.id.money_target_edit);
         setTargetButton = view.findViewById(R.id.set_money_target_button);
+        goToSettingsButton = view.findViewById(R.id.go_settings_button);
         settings = appLab.getSettings();
         targetMoneyEdit.setText(settings.getMoneyTarget());
         setButtons();
@@ -81,5 +83,8 @@ private Settings settings;
             AppFragmentManager.openFragment(new ChildrenPageFragment());
         });
 
+        goToSettingsButton.setOnClickListener(o->{
+            AppFragmentManager.openFragment(new SettingsFragment());
+        });
     }
 }

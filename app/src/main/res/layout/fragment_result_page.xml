@@ -66,6 +66,13 @@
                 android:text="@string/Set_target" />
         </LinearLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recycler_item_blue"
+            android:id="@+id/go_settings_button"
+            android:text="@string/Settings" />
+
     </LinearLayout>
 
 </FrameLayout>
