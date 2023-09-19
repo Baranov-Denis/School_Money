@@ -449,15 +449,15 @@ public class AppLab {
                         Environment.DIRECTORY_DOCUMENTS), "School Money");
                 on.mkdirs();
                 // Имя файла
-                LocalDate currentDate = LocalDate.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-                String formattedDate = currentDate.format(formatter);
-                StringBuilder outputFileName = new StringBuilder("/school_money_");
-                outputFileName.append(formattedDate);
+                StringBuilder outputFileName = new StringBuilder("/school_money");
                 outputFileName.append(".db");
                 File backupDBFile = new File(on, outputFileName.toString());
-                if (currentDB.exists()) {
 
+
+                if (currentDB.exists()) {
+                    if (backupDBFile.exists()) {
+                        backupDBFile.delete();
+                    }
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDBFile).getChannel();
                     dst.transferFrom(src, 0, src.size());
