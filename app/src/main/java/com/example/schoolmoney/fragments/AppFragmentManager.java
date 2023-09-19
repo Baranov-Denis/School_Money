@@ -11,6 +11,14 @@ public class AppFragmentManager {
 
     public static void openFragment(Fragment fragment) {
 
+        // Проверяем, есть ли текущий фрагмент в представлении
+        Fragment currentFragment = MainActivity.fragmentManager.findFragmentById(R.id.main_container_for_all_fragments);
+        if (currentFragment != null) {
+            // Если текущий фрагмент существует, удаляем его перед открытием нового
+            FragmentTransaction removeTransaction = MainActivity.fragmentManager.beginTransaction();
+            removeTransaction.remove(currentFragment).commit();
+        }
+
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
         //transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
@@ -25,13 +33,11 @@ public class AppFragmentManager {
     }
 
 
-
-
     public static void addFragment(Fragment fragment) {
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
-       // transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        // transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         // добавление нового фрагмента в транзакцию
         transaction.add(R.id.main_container_for_all_fragments, fragment);
 
@@ -42,7 +48,7 @@ public class AppFragmentManager {
         transaction.commit();
     }
 
-    public static void createBottomButtons(){
+    public static void createBottomButtons() {
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
 
         // transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
@@ -51,7 +57,7 @@ public class AppFragmentManager {
 
         // Завершение транзакции
         transaction.commit();
-       // AppFragmentManager.addFragment(new BottomButtonFragment());
+        // AppFragmentManager.addFragment(new BottomButtonFragment());
     }
 
 
