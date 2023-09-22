@@ -1,24 +1,17 @@
 package com.example.schoolmoney.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.dropbox.core.DbxException;
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.DropBoxHelper;
 import com.example.schoolmoney.appLab.Settings;
-
-import java.io.IOException;
 
 public class SettingsFragment extends Fragment {
 
@@ -32,6 +25,8 @@ public class SettingsFragment extends Fragment {
 
     private AppCompatButton saveToDropBoxButton;
 
+    private DropBoxHelper dropBoxHelper;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +35,9 @@ public class SettingsFragment extends Fragment {
         settings = appLab.getSettings();
 
         setButtons();
-        AppFragmentManager.closeApp(this);
+        AppFragmentManager.createBottomButtons();
+        dropBoxHelper = DropBoxHelper.getDropboxHelper(settings);
+       // AppFragmentManager.closeApp(this);
         return view;
     }
 
@@ -63,79 +60,60 @@ public class SettingsFragment extends Fragment {
 
 
         getFirstDropboxTokenDropboxButton.setOnClickListener(o -> {
-            try {
-                startActivity(DropBoxHelper.start());
-            } catch (DbxException e) {
-                throw new RuntimeException(e);
-            }
-
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(DropBoxHelper.getFirstTokenFromDropbox());
+                }
+            }).start();
         });
 
+
+
+
+
         saveToDropBoxButton.setOnClickListener(o->{
-                new CreateDropboxLab(appLab).execute();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // Ваш код, который требует интернет-соединения
+                        // Например, попытка выполнить операции с Dropbox
+                       // DropBoxHelper.getDropboxHelper(appLab.getSettings()).createDropboxClient();
+                        dropBoxHelper.uploadDatabaseToDropbox();
+                    } catch (Exception e) {
+                     AppLab.log("internet fail");
+                        //Toast.makeText(getContext(), "NetworkOnMainThreadException", Toast.LENGTH_LONG).show();
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "NetworkOnMainThreadException", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        // Обработка ошибки отсутствия интернет-соединения
+                        // Здесь можно выполнить действия, чтобы сообщить пользователю о проблеме
+                        // Например, показать диалоговое окно с предупреждением
+                        // или отобразить сообщение об ошибке в интерфейсе пользователя
+                        e.printStackTrace(); // Это позволяет записать информацию об ошибке в логи для отладки
+                    }
+
+                }
+            }).start();
         });
 
         saveTokenButton.setOnClickListener(o->{
-            GetToken getToken = new GetToken(appLab , setTokenEditText.getText().toString());
-            getToken.execute();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    appLab.addToken(DropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
+                }
+            }).start();
+
         });
     }
 
 }
-
-
-
-
-class GetToken extends AsyncTask<Void, Void, Void> {
-private AppLab appLab;
-private String token;
-
-    public GetToken(AppLab appLab, String token) {
-        this.appLab = appLab;
-        this.token = token;
-    }
-
-    @Override
-    protected Void doInBackground(Void... params) {
-        // Выполните сетевые операции здесь
-        try {
-            appLab.addToken(DropBoxHelper.getAccessToken(token));
-        } catch (DbxException | IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
-        // Обработайте результат сетевых операций (если необходимо)
-    }
-}
-
-
-class CreateDropboxLab extends AsyncTask<Void, Void, Void> {
-    private AppLab appLab;
-
-    public CreateDropboxLab(AppLab appLab) {
-        this.appLab = appLab;
-    }
-
-    @Override
-    protected Void doInBackground(Void... params) {
-        // Выполните сетевые операции здесь
-        try {
-            DropBoxHelper.getDropboxHelper(appLab.getSettings()).createDropboxClient();
-        } catch (DbxException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
-        // Обработайте результат сетевых операций (если необходимо)
-    }
-}
-
 
 

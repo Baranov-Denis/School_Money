@@ -43,6 +43,7 @@
     <string name="Save_to_dropbox">Save to Dropbox</string>
     <string name="Set_token">Set token</string>
     <string name="Save_token">Save token</string>
+    <string name="NetworkOnMainThreadException">NetworkOnMainThreadException</string>
 
 
 </resources>

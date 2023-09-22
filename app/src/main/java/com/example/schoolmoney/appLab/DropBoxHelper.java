@@ -1,61 +1,46 @@
 package com.example.schoolmoney.appLab;
 
-
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuth;
-import com.dropbox.core.DbxWebAuthNoRedirect;
-import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.FileMetadata;
-import com.dropbox.core.v2.files.ListFolderResult;
-import com.dropbox.core.v2.users.FullAccount;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class DropBoxHelper {
-
-    private final static String APP_NAME = "School_money";
     private final static String APP_KEY = "2ku3g08x0dvsxlx";
     private final static String APP_SECRET = "ehdjh83elypujnu";
-    private Settings settings;
+    private final static String CLIENT_IDENTIFIER = "School_money";
+    private final static String DROPBOX_FILE_PATH = "/school_money.db";
+    private final static String PHONE_STORAGE_FILE_PATH = "/Documents/School Money/school_money.db";
+    private final Settings settings;
+    private DbxClientV2 client;
 
     private static DropBoxHelper dropBoxHelper;
 
     private DropBoxHelper(Settings settings) {
         this.settings = settings;
-
+        if (settings.getToken() != null) {
+            createDropboxClient();
+        }
     }
 
     public static DropBoxHelper getDropboxHelper(Settings settings) {
         if (dropBoxHelper == null) {
             dropBoxHelper = new DropBoxHelper(settings);
-
         }
         return dropBoxHelper;
     }
 
-    //    private final static String ACCESS_TOKEN = "sl.BmjkQmMAyxe-dASh1uSz5yMvHjXxv4exazgQHkhdK9XNWAL51LIDks2ujsenqDWNED3WKtCUMVZMB2EEpb4GbJMBFs4aw_gDCNQHFPsXe-e471kGRgEc8n6ACqkIdCVGKoWZG6olr1aN";
-
-    // private final static String ACCESS_TOKEN = "kEdXcRTsc-MAAAAAAAAAFjxPcTQt8wtjHx3mrqe862c";
-    public static Intent start() throws DbxException {
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("School_money").build();
+    public static Intent getFirstTokenFromDropbox() {
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
         DbxAppInfo dbxAppInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
         DbxWebAuth webAuth = new DbxWebAuth(config, dbxAppInfo);
 // Получите URL для аутентификации
@@ -64,28 +49,41 @@ public class DropBoxHelper {
     }
 
 
-    public static String getAccessToken(String authCode) throws DbxException, IOException {
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("School_money").build();
+    public static String getAccessToken(String authCode) {
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
         DbxAppInfo dbxAppInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
         DbxWebAuth webAuth = new DbxWebAuth(config, dbxAppInfo);
-
         // Обменяйте код авторизации на токен OAuth2
-        DbxAuthFinish authFinish = webAuth.finishFromCode(authCode);
+        DbxAuthFinish authFinish = null;
+        try {
+            authFinish = webAuth.finishFromCode(authCode);
+        } catch (DbxException e) {
+            throw new RuntimeException(e);
+        }
+
         return authFinish.getAccessToken();
     }
 
-    public void createDropboxClient() throws DbxException {
-        DbxRequestConfig config = DbxRequestConfig.newBuilder(APP_NAME).build();
-        DbxClientV2 client = new DbxClientV2(config, settings.getToken());
-        FullAccount account = client.users().getCurrentAccount();
-        AppLab.log(account.getName().getDisplayName());
+    public void createDropboxClient() {
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
+        client = new DbxClientV2(config, settings.getToken());
+    }
 
+    public void uploadDatabaseToDropbox() {
+        try (InputStream in = Files.newInputStream(Paths.get(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH))) {
 
+            try {
+                // Попытайтесь получить метаданные файла
+                client.files().getMetadata(DROPBOX_FILE_PATH);
+                // Если файл существует, вы можете его удалить
+                client.files().deleteV2(DROPBOX_FILE_PATH);
+            } catch (Exception e) {
+                AppLab.log("Something went wrong in uploadDatabaseToDropbox()");
+            }
 
-        try (InputStream in = new FileInputStream( Environment.getExternalStorageDirectory() + "/Documents/School Money/school_money.db")) {
-            FileMetadata metadata = client.files().uploadBuilder("/Test/school_money.db")
+            client.files().uploadBuilder(DROPBOX_FILE_PATH)
                     .uploadAndFinish(in);
-        } catch (IOException e) {
+        } catch (IOException | DbxException e) {
             throw new RuntimeException(e);
         }
     }
