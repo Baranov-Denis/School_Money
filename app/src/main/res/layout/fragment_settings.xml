@@ -5,17 +5,51 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SettingsFragment">
 
-<androidx.appcompat.widget.AppCompatButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/save_database_button"
-    android:text="@string/Save"
-    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save_database_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/send_database_to_dropbox_button"
-        android:text="@string/Send_to_dropbox"
-        />
+        android:text="@string/Save" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/get_first_token_dropbox_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Get_token" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:id="@+id/set_token_edit"
+            style="@style/textStyle"
+            android:hint="@string/Set_token"
+            android:textColorHint="@color/white"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recycler_item_blue"
+            android:id="@+id/save_token_button"
+            android:text="@string/Save_token" />
+
+    </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/save_database_to_dropbox_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Save_to_dropbox" />
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

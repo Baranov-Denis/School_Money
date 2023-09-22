@@ -17,11 +17,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class AppLab {
@@ -152,7 +151,41 @@ public class AppLab {
         return values;
     }
 
+    public void addMoneyTarget(String moneyTarget){
+        ContentValues contentValues = getSettingContentValues(moneyTarget);
+        sqLiteDatabase.insertWithOnConflict(
+                SettingsTable.NAME,
+                null,
+                contentValues,
+                SQLiteDatabase.CONFLICT_REPLACE
+        );
+    }
 
+    private ContentValues getSettingContentValues(String moneyTarget) {
+        ContentValues values = new ContentValues();
+        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
+        values.put(SettingsTable.Cols.MONEY_TARGET,moneyTarget);
+        values.put(SettingsTable.Cols.DROPBOX_TOKEN,settings.getToken());
+        return values;
+    }
+
+    public void addToken(String token){
+        ContentValues contentValues = getTokenContentValues(token);
+        sqLiteDatabase.insertWithOnConflict(
+                SettingsTable.NAME,
+                null,
+                contentValues,
+                SQLiteDatabase.CONFLICT_REPLACE
+        );
+    }
+
+    private ContentValues getTokenContentValues(String token) {
+        ContentValues values = new ContentValues();
+        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
+        values.put(SettingsTable.Cols.MONEY_TARGET,settings.getMoneyTarget());
+        values.put(SettingsTable.Cols.DROPBOX_TOKEN,token);
+        return values;
+    }
 
 
     /**
@@ -225,22 +258,7 @@ public class AppLab {
         return values;
     }
 
-    public void addSettings(String moneyTarget){
-        ContentValues contentValues = getSettingContentValues(moneyTarget);
-        sqLiteDatabase.insertWithOnConflict(
-                SettingsTable.NAME,
-                null,
-                contentValues,
-                SQLiteDatabase.CONFLICT_REPLACE
-        );
-    }
 
-    private ContentValues getSettingContentValues(String moneyTarget) {
-        ContentValues values = new ContentValues();
-        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
-        values.put(SettingsTable.Cols.MONEY_TARGET,moneyTarget);
-        return values;
-    }
 
 
     /**
@@ -343,13 +361,24 @@ public class AppLab {
            // while (!settingsCursorWrapper.isAfterLast()) {
                 //Получаю money из курсора
                 settings = settingsCursorWrapper.getSettings();
-
              //   settingsCursorWrapper.moveToNext();
           //  }
         } finally {
             settingsCursorWrapper.close();
         }
         return settings;
+    }
+    private SettingsCursorWrapper querySettings(String whereClause, String[] whereArgs){
+        Cursor cursor = sqLiteDatabase.query(
+                SettingsTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new SettingsCursorWrapper(cursor);
     }
 
 
@@ -423,18 +452,7 @@ public class AppLab {
         return new MoneyCursorWrapper(cursor);
     }
 
-    private SettingsCursorWrapper querySettings(String whereClause, String[] whereArgs){
-        Cursor cursor = sqLiteDatabase.query(
-                SettingsTable.NAME,
-                null,
-                whereClause,
-                whereArgs,
-                null,
-                null,
-                null
-        );
-        return new SettingsCursorWrapper(cursor);
-    }
+
 
 
     public boolean backUp() {
@@ -474,6 +492,11 @@ public class AppLab {
             Log.i(AppLab.GLOBAL_TAG, "Error during backup: " + e.getMessage());
         }
         return false; // Ошибка резервного копирования
+    }
+
+
+    public static void log(String log){
+        Log.i(GLOBAL_TAG,log);
     }
 
 }

@@ -16,7 +16,10 @@ public class SettingsCursorWrapper extends CursorWrapper {
         if (getCount()>0) {
             moveToFirst();
             String moneyTarget = getString(getColumnIndex(DbSchema.SettingsTable.Cols.MONEY_TARGET));
+            String token = getString(getColumnIndex(DbSchema.SettingsTable.Cols.DROPBOX_TOKEN));
+
             settings.setMoneyTarget(moneyTarget);
+            settings.setToken(token);
         }
         return settings;
     }

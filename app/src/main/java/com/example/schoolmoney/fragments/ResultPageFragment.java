@@ -16,8 +16,6 @@ import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Settings;
 
-import java.util.List;
-
 
 public class ResultPageFragment extends Fragment {
 
@@ -77,7 +75,7 @@ private Settings settings;
         setTargetButton.setOnClickListener(o->{
             String target = "5";
             target = targetMoneyEdit.getText().toString();
-            appLab.addSettings(target);
+            appLab.addMoneyTarget(target);
             targetMoneyEdit.setFocusable(false);
             AppFragmentManager.openFragment(new ChildrenPageFragment());
         });

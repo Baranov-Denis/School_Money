@@ -49,7 +49,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + SettingsTable.NAME + "(" +
                 SettingsTable.Cols.SETTINGS_ID + " primary key , " +
-                SettingsTable.Cols.MONEY_TARGET +
+                SettingsTable.Cols.MONEY_TARGET + "," +
+                SettingsTable.Cols.DROPBOX_TOKEN +
                 ")"
         );
     }
