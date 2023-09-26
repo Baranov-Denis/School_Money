@@ -2,7 +2,7 @@
     <string name="app_name">School Money</string>
 
     <!-- Текст для кнопок Start page -->
-    <string name="Receipts">Receipts</string>
+    <string name="Children">Receipts</string>
     <string name="Expenses">Expenses</string>
     <string name="Result">Result</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -44,6 +44,10 @@
     <string name="Set_token">Set token</string>
     <string name="Save_token">Save token</string>
     <string name="NetworkOnMainThreadException">NetworkOnMainThreadException</string>
+    <string name="Download_database">Download database</string>
+    <string name="Save_database">Save database</string>
+    <string name="File_successfully_added_to_dropbox">File successfully added to dropbox</string>
+    <string name="Something_went_wrong_file_does_not_saved">Something went wrong file does not saved</string>
 
 
 </resources>

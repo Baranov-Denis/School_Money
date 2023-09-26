@@ -1,5 +1,6 @@
 package com.example.schoolmoney.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -12,18 +13,19 @@ import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.DropBoxHelper;
 import com.example.schoolmoney.appLab.Settings;
+import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 
 public class SettingsFragment extends Fragment {
 
     private View view;
     private AppLab appLab;
-    private Settings settings;
+
     private AppCompatButton saveDatabaseButton;
     private AppCompatButton getFirstDropboxTokenDropboxButton;
     private AppCompatButton saveTokenButton;
     private EditText setTokenEditText;
-
     private AppCompatButton saveToDropBoxButton;
+    private AppCompatButton downloadDatabaseFromDropboxButton;
 
     private DropBoxHelper dropBoxHelper;
 
@@ -32,12 +34,12 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         appLab = AppLab.getAppLab(getContext());
-        settings = appLab.getSettings();
+
 
         setButtons();
         AppFragmentManager.createBottomButtons();
-        dropBoxHelper = DropBoxHelper.getDropboxHelper(settings);
-       // AppFragmentManager.closeApp(this);
+        dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
+        AppLab.log(SharedPreferencesHelper.getData(getContext()).getDropboxToken());
         return view;
     }
 
@@ -47,6 +49,7 @@ public class SettingsFragment extends Fragment {
         setTokenEditText = view.findViewById(R.id.set_token_edit);
         saveTokenButton = view.findViewById(R.id.save_token_button);
         saveToDropBoxButton = view.findViewById(R.id.save_database_to_dropbox_button);
+        downloadDatabaseFromDropboxButton = view.findViewById(R.id.download_database_from_dropbox_button);
 
 
 
@@ -70,46 +73,23 @@ public class SettingsFragment extends Fragment {
 
 
 
-
-
         saveToDropBoxButton.setOnClickListener(o->{
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        // Ваш код, который требует интернет-соединения
-                        // Например, попытка выполнить операции с Dropbox
-                       // DropBoxHelper.getDropboxHelper(appLab.getSettings()).createDropboxClient();
-                        dropBoxHelper.uploadDatabaseToDropbox();
-                    } catch (Exception e) {
-                     AppLab.log("internet fail");
-                        //Toast.makeText(getContext(), "NetworkOnMainThreadException", Toast.LENGTH_LONG).show();
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "NetworkOnMainThreadException", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        // Обработка ошибки отсутствия интернет-соединения
-                        // Здесь можно выполнить действия, чтобы сообщить пользователю о проблеме
-                        // Например, показать диалоговое окно с предупреждением
-                        // или отобразить сообщение об ошибке в интерфейсе пользователя
-                        e.printStackTrace(); // Это позволяет записать информацию об ошибке в логи для отладки
-                    }
-
-                }
-            }).start();
+            appLab.saveDataBaseToDropbox(getContext(),getActivity(),dropBoxHelper);
         });
 
         saveTokenButton.setOnClickListener(o->{
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    appLab.addToken(DropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
+                    SharedPreferencesHelper.saveToken(getContext(),dropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
+                    setTokenEditText.setText("");
                 }
             }).start();
+
+        });
+
+        downloadDatabaseFromDropboxButton.setOnClickListener(o->{
+            dropBoxHelper.downloadDatabase();
 
         });
     }

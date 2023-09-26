@@ -21,14 +21,6 @@ public class DbSchema {
         }
     }
 
-    public static final class SettingsTable {
-        public static final String NAME = "Settings";
-        public static final class Cols {
-            public static final String SETTINGS_ID = "settings_id";
-            public static final String MONEY_TARGET = "money_target";
-            public static final String DROPBOX_TOKEN = "dropbox_token";
-        }
-    }
 
     public static final class MoneyTable {
         public static final String NAME = "Money";

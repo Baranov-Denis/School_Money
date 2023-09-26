@@ -1,14 +1,17 @@
 package com.example.schoolmoney.appLab;
 
 
+import com.example.schoolmoney.R;
 import com.example.schoolmoney.database.DbSchema.*;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.schoolmoney.database.DataBaseHelper;
 
@@ -33,6 +36,10 @@ public class AppLab {
     private final SQLiteDatabase sqLiteDatabase;
     private int childPosition;
     private int moneyPosition;
+
+    public static void resetAppLab(){
+        appLab = null;
+    }
 
     public int getMoneyPosition() {
         return moneyPosition;
@@ -151,41 +158,6 @@ public class AppLab {
         return values;
     }
 
-    public void addMoneyTarget(String moneyTarget){
-        ContentValues contentValues = getSettingContentValues(moneyTarget);
-        sqLiteDatabase.insertWithOnConflict(
-                SettingsTable.NAME,
-                null,
-                contentValues,
-                SQLiteDatabase.CONFLICT_REPLACE
-        );
-    }
-
-    private ContentValues getSettingContentValues(String moneyTarget) {
-        ContentValues values = new ContentValues();
-        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
-        values.put(SettingsTable.Cols.MONEY_TARGET,moneyTarget);
-        values.put(SettingsTable.Cols.DROPBOX_TOKEN,settings.getToken());
-        return values;
-    }
-
-    public void addToken(String token){
-        ContentValues contentValues = getTokenContentValues(token);
-        sqLiteDatabase.insertWithOnConflict(
-                SettingsTable.NAME,
-                null,
-                contentValues,
-                SQLiteDatabase.CONFLICT_REPLACE
-        );
-    }
-
-    private ContentValues getTokenContentValues(String token) {
-        ContentValues values = new ContentValues();
-        values.put(SettingsTable.Cols.SETTINGS_ID,"settingsId");
-        values.put(SettingsTable.Cols.MONEY_TARGET,settings.getMoneyTarget());
-        values.put(SettingsTable.Cols.DROPBOX_TOKEN,token);
-        return values;
-    }
 
 
     /**
@@ -351,36 +323,6 @@ public class AppLab {
         return moneyList;
     }
 
-    public Settings getSettings(){
-        settings = new Settings();
-        SettingsCursorWrapper settingsCursorWrapper = null;
-        settingsCursorWrapper = querySettings(null,null);
-
-        try {
-            settingsCursorWrapper.moveToFirst();
-           // while (!settingsCursorWrapper.isAfterLast()) {
-                //Получаю money из курсора
-                settings = settingsCursorWrapper.getSettings();
-             //   settingsCursorWrapper.moveToNext();
-          //  }
-        } finally {
-            settingsCursorWrapper.close();
-        }
-        return settings;
-    }
-    private SettingsCursorWrapper querySettings(String whereClause, String[] whereArgs){
-        Cursor cursor = sqLiteDatabase.query(
-                SettingsTable.NAME,
-                null,
-                whereClause,
-                whereArgs,
-                null,
-                null,
-                null
-        );
-        return new SettingsCursorWrapper(cursor);
-    }
-
 
     public Child getChildByUUID(UUID uuid) {
         childrenList = getChildrenList();
@@ -413,19 +355,6 @@ public class AppLab {
     }
 
 
-    /*  private NoteCursorWrapper queryNote(String whereClause, String[] whereArgs) {
-          Cursor cursor = sqLiteDatabase.query(
-                  NoteTable.NAME,
-                  null,
-                  whereClause,
-                  whereArgs,
-                  null,
-                  null,
-                  null
-          );
-          return new NoteCursorWrapper(cursor);
-      }
-  */
     private ParentCursorWrapper queryParent(String whereClause, String[] whereArgs) {
         Cursor cursor = sqLiteDatabase.query(
                 ParentTable.NAME,
@@ -492,6 +421,46 @@ public class AppLab {
             Log.i(AppLab.GLOBAL_TAG, "Error during backup: " + e.getMessage());
         }
         return false; // Ошибка резервного копирования
+    }
+
+    public void saveDataBaseToDropbox(Context context, Activity activity, DropBoxHelper dropBoxHelper){
+        if (appLab.backUp()) {
+            Toast.makeText(context, activity.getResources().getString(R.string.Backup_is_successful_to_phone_storage), Toast.LENGTH_LONG).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // Ваш код, который требует интернет-соединения
+                        // Например, попытка выполнить операции с Dropbox
+                        // DropBoxHelper.getDropboxHelper(appLab.getSettings()).createDropboxClient();
+                        if (dropBoxHelper.uploadDatabaseToDropbox()) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, activity.getResources().getString(R.string.File_successfully_added_to_dropbox), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        AppLab.log("internet fail");
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, activity.getResources().getString(R.string.Something_went_wrong_file_does_not_saved), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        // Обработка ошибки отсутствия интернет-соединения
+                        // Здесь можно выполнить действия, чтобы сообщить пользователю о проблеме
+                        // Например, показать диалоговое окно с предупреждением
+                        // или отобразить сообщение об ошибке в интерфейсе пользователя
+                        e.printStackTrace(); // Это позволяет записать информацию об ошибке в логи для отладки
+                    }
+
+                }
+            }).start();
+        }else {
+            Toast.makeText(context, activity.getResources().getString(R.string.Backup_is_failed), Toast.LENGTH_LONG).show();
+        }
     }
 
 

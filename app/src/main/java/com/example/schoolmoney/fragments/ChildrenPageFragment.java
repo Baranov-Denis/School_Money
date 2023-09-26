@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.DropBoxHelper;
 import com.example.schoolmoney.appLab.Money;
+import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class ChildrenPageFragment extends Fragment {
     private ChildAdapter childAdapter;
     private RecyclerView childrenRecycleView;
     private LinearLayoutManager layoutManager;
+    private DropBoxHelper dropBoxHelper;
 
 
 
@@ -50,6 +53,8 @@ public class ChildrenPageFragment extends Fragment {
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
+        dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
+        appLab.saveDataBaseToDropbox(getContext(),getActivity(),dropBoxHelper);
         AppFragmentManager.closeApp(this);
         return view;
     }
@@ -101,7 +106,7 @@ public class ChildrenPageFragment extends Fragment {
                 }
                 childMoneyTextView.setText(childMoney + "");
 
-                if (childMoney < Integer.parseInt(appLab.getSettings().getMoneyTarget())) {
+                if (childMoney < Integer.parseInt(SharedPreferencesHelper.getData(getContext()).getMoneyTarget())) {
                     layout.setBackgroundResource(R.drawable.red_button);
                 } else {
                     layout.setBackgroundResource(R.drawable.recycler_item_blue);

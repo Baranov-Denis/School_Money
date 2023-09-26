@@ -31,6 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     //Добавляю фрагмент который будет выводиться при запуске. Возможно будет добавить настройкую
     private void addDefaultPage(){
-        AppFragmentManager.addFragment(new ChildrenPageFragment());
+        AppFragmentManager.openFragment(new ChildrenPageFragment());
     }
 }

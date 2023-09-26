@@ -11,42 +11,59 @@
         android:orientation="vertical">
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/save_database_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Save" />
+        android:text="@string/Save_database"
+        android:layout_margin="8dp"
+        android:background="@drawable/recycler_item_blue"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/get_first_token_dropbox_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Get_token" />
+        android:text="@string/Get_token"
+        android:layout_margin="8dp"
+        android:background="@drawable/recycler_item_blue"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
         >
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginHorizontal="8dp"
             android:id="@+id/set_token_edit"
             style="@style/textStyle"
             android:hint="@string/Set_token"
+            android:textSize="10sp"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="8dp"
             android:textColorHint="@color/white"/>
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/recycler_item_blue"
             android:id="@+id/save_token_button"
-            android:text="@string/Save_token" />
+            android:text="@string/Save_token"
+            android:layout_margin="8dp"
+            android:background="@drawable/recycler_item_blue"/>
 
     </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_database_to_dropbox_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Save_to_dropbox" />
+            android:text="@string/Save_to_dropbox"
+            android:layout_margin="8dp"
+            android:background="@drawable/recycler_item_blue"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/download_database_from_dropbox_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Download_database"
+            android:layout_margin="8dp"
+            android:background="@drawable/recycler_item_blue"/>
     </LinearLayout>
 
 

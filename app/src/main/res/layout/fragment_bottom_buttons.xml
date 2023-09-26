@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/go_to_receipts_page_button"
-            android:text="@string/Receipts"
+            android:text="@string/Children"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:textStyle="bold"

@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">School Money</string>
+
+    <!-- Текст для кнопок Start page -->
+    <string name="Children">Школьники</string>
+    <string name="Expenses">Траты</string>
+    <string name="Result">Итог</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Child_name">Имя ребёнка</string>
+    <string name="Cancel">Отмена</string>
+    <string name="Save">Сохранить</string>
+    <string name="test_value">1987</string>
+    <string name="rub">руб.</string>
+    <string name="Note_hint">Для заметок</string>
+    <string name="add_parent">Добавить родителя</string>
+    <string name="add_money">Доавить взнос</string>
+    <string name="Enter_parent_name">Введите имя родителя</string>
+    <string name="Enter_parent_phone">Введите номер телефона</string>
+    <string name="Enter_child_name">Введите имя ребёнка</string>
+    <string name="Enter_value">Введите сумму</string>
+    <string name="Parents_info">Информация о родителях</string>
+    <string name="Money_info">Информация о взносах</string>
+    <string name="Note">Заметка</string>
+    <string name="Add_child">Добавить ученика</string>
+    <string name="Value">Значение</string>
+    <string name="date">дата</string>
+    <string name="Parent_name">Имя родителя</string>
+    <string name="Add_spend">Добавить трату</string>
+    <string name="Enter_note">Напишите заметку</string>
+    <string name="Enter_title">Введите название траты</string>
+    <string name="Delete">Удалить</string>
+    <string name="SetDate">Задать дату</string>
+    <string name="Back">Назад</string>
+    <string name="Money_title">Название траты</string>
+    <string name="total">Итог:</string>
+    <string name="total_receive">Всего денег получено:</string>
+    <string name="Set_target">Установить цель</string>
+    <string name="Settings">Настройки</string>
+    <string name="Backup_is_successful_to_phone_storage">База данных успешно сохранена в память телефона!!!</string>
+    <string name="Backup_is_failed">Резервное сохранение не удалось!!!</string>
+    <string name="Get_token">Получить токен</string>
+    <string name="Save_to_dropbox">Сохранить в Dropbox</string>
+    <string name="Set_token">Задать токен</string>
+    <string name="Save_token">Сохранить токен</string>
+    <string name="NetworkOnMainThreadException">NetworkOnMainThreadException</string>
+    <string name="Download_database">Загрузить базу данных</string>
+    <string name="Save_database">Сохранить базу данных</string>
+    <string name="File_successfully_added_to_dropbox">База данных успешно сохранена в Dropbox!!!</string>
+    <string name="Something_went_wrong_file_does_not_saved">Что-то пошло не так!!! Резервное копирование не удалось!!!</string>
+
+
+</resources>

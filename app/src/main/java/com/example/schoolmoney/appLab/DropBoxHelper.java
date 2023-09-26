@@ -1,14 +1,26 @@
 package com.example.schoolmoney.appLab;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Toast;
+
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxOAuth1AccessToken;
+import com.dropbox.core.DbxOAuth1Upgrader;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuth;
+import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.DbxRawClientV2;
+import com.dropbox.core.v2.auth.DbxAppAuthRequests;
+import com.example.schoolmoney.database.DataBaseHelper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -20,21 +32,24 @@ public class DropBoxHelper {
     private final static String CLIENT_IDENTIFIER = "School_money";
     private final static String DROPBOX_FILE_PATH = "/school_money.db";
     private final static String PHONE_STORAGE_FILE_PATH = "/Documents/School Money/school_money.db";
-    private final Settings settings;
+
+    private Context context;
+
+    private static Settings s2;
     private DbxClientV2 client;
 
     private static DropBoxHelper dropBoxHelper;
 
-    private DropBoxHelper(Settings settings) {
-        this.settings = settings;
-        if (settings.getToken() != null) {
+    private DropBoxHelper(Context context) {
+        this.context = context;
+        if (SharedPreferencesHelper.getData(context).getDropboxToken() != null) {
             createDropboxClient();
         }
     }
 
-    public static DropBoxHelper getDropboxHelper(Settings settings) {
+    public static DropBoxHelper getDropboxHelper(Context context) {
         if (dropBoxHelper == null) {
-            dropBoxHelper = new DropBoxHelper(settings);
+            dropBoxHelper = new DropBoxHelper(context);
         }
         return dropBoxHelper;
     }
@@ -49,7 +64,7 @@ public class DropBoxHelper {
     }
 
 
-    public static String getAccessToken(String authCode) {
+    public String getAccessToken(String authCode) {
         DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
         DbxAppInfo dbxAppInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
         DbxWebAuth webAuth = new DbxWebAuth(config, dbxAppInfo);
@@ -64,28 +79,51 @@ public class DropBoxHelper {
         return authFinish.getAccessToken();
     }
 
+
     public void createDropboxClient() {
         DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
-        client = new DbxClientV2(config, settings.getToken());
+        client = new DbxClientV2(config, SharedPreferencesHelper.getData(context).getDropboxToken());
     }
 
-    public void uploadDatabaseToDropbox() {
-        try (InputStream in = Files.newInputStream(Paths.get(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH))) {
 
-            try {
-                // Попытайтесь получить метаданные файла
-                client.files().getMetadata(DROPBOX_FILE_PATH);
+
+
+    public boolean uploadDatabaseToDropbox() {
+        try (InputStream in = Files.newInputStream(Paths.get(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH))) {
+            if(fileExist()) {
                 // Если файл существует, вы можете его удалить
                 client.files().deleteV2(DROPBOX_FILE_PATH);
-            } catch (Exception e) {
-                AppLab.log("Something went wrong in uploadDatabaseToDropbox()");
             }
-
             client.files().uploadBuilder(DROPBOX_FILE_PATH)
                     .uploadAndFinish(in);
+
+            return fileExist();
         } catch (IOException | DbxException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+
+    public boolean fileExist(){
+        try {
+            // Попытайтесь получить метаданные файла
+            client.files().getMetadata(DROPBOX_FILE_PATH);
+            return true;
+        } catch (DbxException e) {
+            return false;
+        }
+    }
+
+    public void downloadDatabase() {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(context.getApplicationContext());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                dataBaseHelper.downloadDatabase(client,DROPBOX_FILE_PATH);
+            }
+        }).start();
+
     }
 }
 

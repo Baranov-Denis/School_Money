@@ -1,5 +1,6 @@
 package com.example.schoolmoney.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Settings;
+import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 
 
 public class ResultPageFragment extends Fragment {
@@ -26,7 +28,7 @@ private TextView receiveResult;
 private EditText targetMoneyEdit;
 private Button setTargetButton;
 private Button goToSettingsButton;
-private Settings settings;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,8 +40,7 @@ private Settings settings;
         targetMoneyEdit = view.findViewById(R.id.money_target_edit);
         setTargetButton = view.findViewById(R.id.set_money_target_button);
         goToSettingsButton = view.findViewById(R.id.go_settings_button);
-        settings = appLab.getSettings();
-        targetMoneyEdit.setText(settings.getMoneyTarget());
+        targetMoneyEdit.setText(SharedPreferencesHelper.getData(getContext()).getMoneyTarget());
         setButtons();
         AppFragmentManager.createBottomButtons();
         updateUI();
@@ -75,7 +76,7 @@ private Settings settings;
         setTargetButton.setOnClickListener(o->{
             String target = "5";
             target = targetMoneyEdit.getText().toString();
-            appLab.addMoneyTarget(target);
+            SharedPreferencesHelper.saveMoneyTarget(getContext(),target);
             targetMoneyEdit.setFocusable(false);
             AppFragmentManager.openFragment(new ChildrenPageFragment());
         });
