@@ -16,6 +16,8 @@ import com.dropbox.core.DbxOAuth1Upgrader;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.android.Auth;
+import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.DbxRawClientV2;
 import com.dropbox.core.v2.auth.DbxAppAuthRequests;
@@ -25,6 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DropBoxHelper {
     private final static String APP_KEY = "2ku3g08x0dvsxlx";
@@ -32,6 +38,7 @@ public class DropBoxHelper {
     private final static String CLIENT_IDENTIFIER = "School_money";
     private final static String DROPBOX_FILE_PATH = "/school_money.db";
     private final static String PHONE_STORAGE_FILE_PATH = "/Documents/School Money/school_money.db";
+
 
     private Context context;
 
@@ -59,7 +66,10 @@ public class DropBoxHelper {
         DbxAppInfo dbxAppInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
         DbxWebAuth webAuth = new DbxWebAuth(config, dbxAppInfo);
 // Получите URL для аутентификации
-        String authorizeUrl = webAuth.authorize(DbxWebAuth.newRequestBuilder().build());
+
+        AppLab.log(webAuth.authorize(DbxWebAuth.newRequestBuilder().build()));
+        String authorizeUrl = "https://www.dropbox.com/oauth2/authorize?response_type=code&token_access_type=offline&client_id=2ku3g08x0dvsxlx";
+        // String authorizeUrl = webAuth.authorize(DbxWebAuth.newRequestBuilder().build());
         return new Intent(Intent.ACTION_VIEW, Uri.parse(authorizeUrl));
     }
 
@@ -75,8 +85,34 @@ public class DropBoxHelper {
         } catch (DbxException e) {
             throw new RuntimeException(e);
         }
+        AppLab.log("--->>>" + authFinish.getRefreshToken() + "    " + authFinish.getExpiresAt());
 
         return authFinish.getAccessToken();
+
+    }
+
+
+    public void refreshAccessToken() {
+
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
+
+
+        String oldToken = SharedPreferencesHelper.getData(context).getDropboxToken();
+
+        //TODO refToken и exp нужно сохранять при получении
+
+        String refToken = "ROeH4_yrY58AAAAAAAAAAb5gatnwfZvW0WMiF_9ab0IIslgmnH7rbVVnvklt1Am7";
+        Long exp = Long.parseLong("1695774174226");
+        DbxCredential dbxCredential = new DbxCredential(oldToken, exp, refToken, APP_KEY);
+
+        client = new DbxClientV2(config,dbxCredential);
+        //client = new DbxClientV2(config, SharedPreferencesHelper.getData(context).getDropboxToken());
+
+
+
+       // SharedPreferencesHelper.saveToken(context, newToken);
+        AppLab.log("Its a NEW TOKEN ??? ----->" + dbxCredential.getAccessToken() + "     " + dbxCredential.getExpiresAt());
+
     }
 
 
@@ -86,11 +122,9 @@ public class DropBoxHelper {
     }
 
 
-
-
     public boolean uploadDatabaseToDropbox() {
         try (InputStream in = Files.newInputStream(Paths.get(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH))) {
-            if(fileExist()) {
+            if (fileExist()) {
                 // Если файл существует, вы можете его удалить
                 client.files().deleteV2(DROPBOX_FILE_PATH);
             }
@@ -105,7 +139,7 @@ public class DropBoxHelper {
     }
 
 
-    public boolean fileExist(){
+    public boolean fileExist() {
         try {
             // Попытайтесь получить метаданные файла
             client.files().getMetadata(DROPBOX_FILE_PATH);
@@ -120,7 +154,7 @@ public class DropBoxHelper {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                dataBaseHelper.downloadDatabase(client,DROPBOX_FILE_PATH);
+                dataBaseHelper.downloadDatabase(client, DROPBOX_FILE_PATH);
             }
         }).start();
 

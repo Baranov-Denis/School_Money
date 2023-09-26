@@ -15,6 +15,8 @@ import com.example.schoolmoney.appLab.DropBoxHelper;
 import com.example.schoolmoney.appLab.Settings;
 import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 
+import java.util.Objects;
+
 public class SettingsFragment extends Fragment {
 
     private View view;
@@ -81,8 +83,15 @@ public class SettingsFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SharedPreferencesHelper.saveToken(getContext(),dropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
-                    setTokenEditText.setText("");
+                    if(!setTokenEditText.getText().toString().equals("")) {
+                        SharedPreferencesHelper.saveToken(requireContext(), dropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
+                        setTokenEditText.setText("");
+                        AppLab.log("working saver  " + SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
+                    }else {
+                        AppLab.log("working refresher first  " +  SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
+                        refreshToken();
+                        AppLab.log("working refresher second  " +  SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
+                    }
                 }
             }).start();
 
@@ -92,7 +101,17 @@ public class SettingsFragment extends Fragment {
             dropBoxHelper.downloadDatabase();
 
         });
+
+
     }
+
+    private void refreshToken(){
+       // dropBoxHelper.refreshAccessToken(SharedPreferencesHelper.getData(getContext()).getDropboxToken());
+        AppLab.log("1");
+        dropBoxHelper.refreshAccessToken();
+    }
+
+
 
 }
 

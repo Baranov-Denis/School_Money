@@ -34,7 +34,7 @@ public class ChildrenPageFragment extends Fragment {
     private ChildAdapter childAdapter;
     private RecyclerView childrenRecycleView;
     private LinearLayoutManager layoutManager;
-    private DropBoxHelper dropBoxHelper;
+
 
 
 
@@ -53,8 +53,6 @@ public class ChildrenPageFragment extends Fragment {
         AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
-        dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
-        appLab.saveDataBaseToDropbox(getContext(),getActivity(),dropBoxHelper);
         AppFragmentManager.closeApp(this);
         return view;
     }
