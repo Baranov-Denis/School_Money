@@ -1,6 +1,8 @@
 package com.example.schoolmoney.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
@@ -32,6 +35,7 @@ import com.example.schoolmoney.fragments.windows.ParentFloatingWindowFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -148,7 +152,7 @@ public class ChildCardFragment extends Fragment {
      * Recycler для parents
      */
 
-    private class ParentHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    private class ParentHolder extends RecyclerView.ViewHolder implements  View.OnClickListener, View.OnLongClickListener {
 
         // private LinearLayout layout;
         private TextView parentName;
@@ -161,6 +165,7 @@ public class ChildCardFragment extends Fragment {
             parentName = itemView.findViewById(R.id.parent_item_title);
             parentPhone = itemView.findViewById(R.id.parent_phone);
             itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Parent parent) {
@@ -173,10 +178,16 @@ public class ChildCardFragment extends Fragment {
         @Override
         public boolean onLongClick(View v) {
             AppFragmentManager.addFragment(new ParentFloatingWindowFragment(child, parent.getParentName()));
-            return false;
+            return true;
         }
 
 
+        @Override
+        public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse( "tel:" + parent.getParentPhone()));
+                requireActivity().startActivity(callIntent);
+        }
     }
 
     private class ParentAdapter extends RecyclerView.Adapter<ParentHolder> {
@@ -239,6 +250,9 @@ public class ChildCardFragment extends Fragment {
             AppFragmentManager.addFragment(new MoneyFloatingWindowFragment(money.getMoneyUuid(), child));
             return false;
         }
+
+
+
     }
 
     private class MoneyAdapter extends RecyclerView.Adapter<MoneyHolder> {
