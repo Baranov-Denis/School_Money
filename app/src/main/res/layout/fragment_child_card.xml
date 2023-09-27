@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/floating_window_normal"
-    android:layout_margin="16dp"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context=".fragments.ChildCardFragment">
 
@@ -38,22 +38,25 @@
         android:textStyle="bold"
         app:backgroundTint="@android:color/transparent"
         android:enabled="false"
+        android:layout_marginHorizontal="48dp"
         />
 
             <ImageButton
                 android:id="@+id/change_child_name_image_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_gravity="end"
-                android:layout_margin="16dp"
-                android:src="@android:drawable/ic_menu_edit"
-                app:backgroundTint="@android:color/transparent" />
+                android:src="@drawable/icons8_edit_128___"
+                app:backgroundTint="@android:color/transparent"
+                android:scaleType="fitEnd"
+                />
         </FrameLayout>
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="80dp">
 
         <LinearLayout
@@ -134,25 +137,27 @@
                     </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_new_parent_fab_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@android:drawable/ic_input_add"
-                    app:backgroundTint="@null"
-                    app:tint="@null" />
-
                 <TextView
                     style="@style/textStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|end"
-                    android:layout_marginTop="66dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="20dp"
                     android:text="@string/add_parent" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_new_parent_fab_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_input_add"
+                    app:backgroundTint="@null"
+                    app:tint="@null" />
+
+
 
             </FrameLayout>
 
@@ -192,12 +197,21 @@
                     </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
+                <TextView
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/add_money" />
+
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/add_new_child_money_fab_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|end"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:src="@android:drawable/ic_input_add"
                     app:backgroundTint="@null"
@@ -205,14 +219,7 @@
 
                     />
 
-                <TextView
-                    style="@style/textStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="66dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/add_money" />
+
 
             </FrameLayout>
 

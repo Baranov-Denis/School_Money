@@ -5,7 +5,9 @@
         <item name="colorPrimary">@color/too_dark_blue</item>
         <item name="colorAccent">@color/blue</item>
         <item name="android:windowBackground">@color/too_dark_blue</item>
+        <item name="android:navigationBarColor">@color/too_dark_blue</item>
     </style>
 
     <style name="Theme.SchoolMoney" parent="Base.Theme.SchoolMoney" />
+
 </resources>

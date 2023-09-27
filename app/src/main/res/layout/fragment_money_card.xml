@@ -4,7 +4,7 @@
     android:id="@+id/child_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="8dp"
     android:background="@drawable/floating_window_normal"
     android:orientation="vertical"
     tools:context=".fragments.MoneyCardFragment">
@@ -35,16 +35,17 @@
                     android:textColor="@color/white"
                     android:textSize="34sp"
                     android:textStyle="bold"
-                    app:backgroundTint="@android:color/transparent" />
+                    app:backgroundTint="@android:color/transparent"
+                    android:layout_marginHorizontal="48dp"/>
 
                 <ImageButton
                     android:id="@+id/change_money_title_image_button"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:layout_gravity="end"
-                    android:layout_margin="16dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    app:backgroundTint="@android:color/transparent" />
+                    android:src="@drawable/icons8_edit_64___"
+                    app:backgroundTint="@android:color/transparent"
+                    android:scaleType="fitEnd"/>
             </FrameLayout>
 
         </LinearLayout>
@@ -52,6 +53,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginBottom="80dp">
 
             <ScrollView
@@ -121,7 +123,7 @@
                                 android:layout_marginStart="32dp"
                                 android:layout_gravity="bottom"
                                 android:text="@string/Value"
-                                android:textSize="40sp" />
+                                android:textSize="50sp" />
 
                             <TextView
                                 style="@style/textStyle"

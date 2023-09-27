@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="almost_white">#E6E6E6</color>
     <color name="light_gray">#9F9F9F</color>
     <color name="dark_gray">#333333</color>
-    <color name="blue">#3274F8</color>
-    <color name="dark_blue">#1C438F</color>
-    <color name="too_dark_blue">#0F2249</color>
-    <color name="red">#8F0000</color>
+    <color name="blue">#07B3AD</color>
+    <color name="dark_blue">#047C77</color>
+    <color name="too_dark_blue">#033E3C</color>
+    <color name="red">#BF5E4D</color>
 </resources>
