@@ -18,6 +18,7 @@ import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.android.Auth;
 import com.dropbox.core.oauth.DbxCredential;
+import com.dropbox.core.oauth.DbxRefreshResult;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.DbxRawClientV2;
 import com.dropbox.core.v2.auth.DbxAppAuthRequests;
@@ -41,11 +42,12 @@ public class DropBoxHelper {
 
 
     private Context context;
-
-    private static Settings s2;
     private DbxClientV2 client;
-
     private static DropBoxHelper dropBoxHelper;
+
+    public DbxClientV2 getClient() {
+        return client;
+    }
 
     private DropBoxHelper(Context context) {
         this.context = context;
@@ -68,8 +70,8 @@ public class DropBoxHelper {
 // Получите URL для аутентификации
 
         AppLab.log(webAuth.authorize(DbxWebAuth.newRequestBuilder().build()));
-        String authorizeUrl = "https://www.dropbox.com/oauth2/authorize?response_type=code&token_access_type=offline&client_id=2ku3g08x0dvsxlx";
-        // String authorizeUrl = webAuth.authorize(DbxWebAuth.newRequestBuilder().build());
+        //String authorizeUrl = "https://www.dropbox.com/oauth2/authorize?response_type=code&token_access_type=offline&client_id=2ku3g08x0dvsxlx";
+        String authorizeUrl = "https://www.dropbox.com/oauth2/authorize?response_type=code&token_access_type=offline&client_id=" + APP_KEY;
         return new Intent(Intent.ACTION_VIEW, Uri.parse(authorizeUrl));
     }
 
@@ -85,7 +87,8 @@ public class DropBoxHelper {
         } catch (DbxException e) {
             throw new RuntimeException(e);
         }
-        AppLab.log("--->>>" + authFinish.getRefreshToken() + "    " + authFinish.getExpiresAt());
+        SharedPreferencesHelper.saveRefreshToken(context, authFinish.getRefreshToken());
+        SharedPreferencesHelper.saveExpiresTime(context, authFinish.getRefreshToken());
 
         return authFinish.getAccessToken();
 
@@ -93,26 +96,20 @@ public class DropBoxHelper {
 
 
     public void refreshAccessToken() {
-
         DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
-
-
         String oldToken = SharedPreferencesHelper.getData(context).getDropboxToken();
+        String refToken = SharedPreferencesHelper.getData(context).getRefreshToken();
+        Long exp = Long.parseLong(SharedPreferencesHelper.getData(context).getExpiresTime());
+        DbxCredential dbxCredential = new DbxCredential(oldToken, exp, refToken, APP_KEY, APP_SECRET);
+        client = new DbxClientV2(config, dbxCredential);
 
-        //TODO refToken и exp нужно сохранять при получении
-
-        String refToken = "ROeH4_yrY58AAAAAAAAAAb5gatnwfZvW0WMiF_9ab0IIslgmnH7rbVVnvklt1Am7";
-        Long exp = Long.parseLong("1695774174226");
-        DbxCredential dbxCredential = new DbxCredential(oldToken, exp, refToken, APP_KEY);
-
-        client = new DbxClientV2(config,dbxCredential);
-        //client = new DbxClientV2(config, SharedPreferencesHelper.getData(context).getDropboxToken());
-
-
-
-       // SharedPreferencesHelper.saveToken(context, newToken);
-        AppLab.log("Its a NEW TOKEN ??? ----->" + dbxCredential.getAccessToken() + "     " + dbxCredential.getExpiresAt());
-
+        try {
+            DbxRefreshResult refreshResult = client.refreshAccessToken();
+            SharedPreferencesHelper.saveToken(context, refreshResult.getAccessToken());
+        } catch (DbxException e) {
+            throw new RuntimeException(e);
+        }
+        client = new DbxClientV2(config, SharedPreferencesHelper.getData(context).getDropboxToken());
     }
 
 
@@ -124,6 +121,9 @@ public class DropBoxHelper {
 
     public boolean uploadDatabaseToDropbox() {
         try (InputStream in = Files.newInputStream(Paths.get(Environment.getExternalStorageDirectory() + PHONE_STORAGE_FILE_PATH))) {
+            if (!fileExist()) {
+                refreshAccessToken();
+            }
             if (fileExist()) {
                 // Если файл существует, вы можете его удалить
                 client.files().deleteV2(DROPBOX_FILE_PATH);
@@ -133,6 +133,7 @@ public class DropBoxHelper {
 
             return fileExist();
         } catch (IOException | DbxException e) {
+            AppLab.log("uploadDatabaseToDropbox() failed");
             throw new RuntimeException(e);
         }
 
@@ -150,10 +151,14 @@ public class DropBoxHelper {
     }
 
     public void downloadDatabase() {
+
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context.getApplicationContext());
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if (!fileExist()) {
+                    refreshAccessToken();
+                }
                 dataBaseHelper.downloadDatabase(client, DROPBOX_FILE_PATH);
             }
         }).start();

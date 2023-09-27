@@ -86,11 +86,8 @@ public class SettingsFragment extends Fragment {
                     if(!setTokenEditText.getText().toString().equals("")) {
                         SharedPreferencesHelper.saveToken(requireContext(), dropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
                         setTokenEditText.setText("");
-                        AppLab.log("working saver  " + SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
                     }else {
-                        AppLab.log("working refresher first  " +  SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
                         refreshToken();
-                        AppLab.log("working refresher second  " +  SharedPreferencesHelper.getData(requireContext()).getDropboxToken());
                     }
                 }
             }).start();
@@ -106,8 +103,6 @@ public class SettingsFragment extends Fragment {
     }
 
     private void refreshToken(){
-       // dropBoxHelper.refreshAccessToken(SharedPreferencesHelper.getData(getContext()).getDropboxToken());
-        AppLab.log("1");
         dropBoxHelper.refreshAccessToken();
     }
 

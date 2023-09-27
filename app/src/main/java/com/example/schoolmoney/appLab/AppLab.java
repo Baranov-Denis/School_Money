@@ -430,9 +430,9 @@ public class AppLab {
                 @Override
                 public void run() {
                     try {
+
                         // Ваш код, который требует интернет-соединения
                         // Например, попытка выполнить операции с Dropbox
-                        // DropBoxHelper.getDropboxHelper(appLab.getSettings()).createDropboxClient();
                         if (dropBoxHelper.uploadDatabaseToDropbox()) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
