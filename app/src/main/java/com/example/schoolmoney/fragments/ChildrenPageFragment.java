@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,7 +59,7 @@ public class ChildrenPageFragment extends Fragment {
     }
 
     private void setFabButton() {
-        FloatingActionButton addNewChildButton = view.findViewById(R.id.add_new_child_fab_button);
+        ImageButton addNewChildButton = view.findViewById(R.id.add_new_child_fab_button);
         addNewChildButton.setOnClickListener(o -> {
             AppFragmentManager.openFragment(new CreateNewChildFragment());
         });

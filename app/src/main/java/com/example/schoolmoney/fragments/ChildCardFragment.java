@@ -115,8 +115,8 @@ public class ChildCardFragment extends Fragment {
     private void setButtons() {
         Button deleteButton = view.findViewById(R.id.delete_button_on_child_card_fragment);
         Button cancelButton = view.findViewById(R.id.cancel_button_on_child_card_fragment);
-        FloatingActionButton addParent = view.findViewById(R.id.add_new_parent_fab_button);
-        FloatingActionButton addMoney = view.findViewById(R.id.add_new_child_money_fab_button);
+        ImageButton addParent = view.findViewById(R.id.add_new_parent_fab_button);
+        ImageButton addMoney = view.findViewById(R.id.add_new_child_money_fab_button);
         ImageButton changeNameButton = view.findViewById(R.id.change_child_name_image_button);
 
 
@@ -152,7 +152,7 @@ public class ChildCardFragment extends Fragment {
      * Recycler для parents
      */
 
-    private class ParentHolder extends RecyclerView.ViewHolder implements  View.OnClickListener, View.OnLongClickListener {
+    private class ParentHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         // private LinearLayout layout;
         private TextView parentName;
@@ -184,9 +184,9 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse( "tel:" + parent.getParentPhone()));
-                requireActivity().startActivity(callIntent);
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + parent.getParentPhone()));
+            requireActivity().startActivity(callIntent);
         }
     }
 
@@ -252,7 +252,6 @@ public class ChildCardFragment extends Fragment {
         }
 
 
-
     }
 
     private class MoneyAdapter extends RecyclerView.Adapter<MoneyHolder> {
@@ -313,32 +312,32 @@ public class ChildCardFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Log.i(AppLab.GLOBAL_TAG,"onPause " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onPause " + appLab.getChildPosition());
         super.onPause();
-       if (dontWantToDelete) {
+        if (dontWantToDelete) {
             appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
         }
         updateUI();
 
-        Log.i(AppLab.GLOBAL_TAG,"onPause2 " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onPause2 " + appLab.getChildPosition());
     }
 
     @Override
     public void onStop() {
-        Log.i(AppLab.GLOBAL_TAG,"onStop 1 " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onStop 1 " + appLab.getChildPosition());
         super.onStop();
-        Log.i(AppLab.GLOBAL_TAG,"onStop 2 " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onStop 2 " + appLab.getChildPosition());
     }
 
     @Override
     public void onDestroyView() {
-        Log.i(AppLab.GLOBAL_TAG,"onDestroyView " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onDestroyView " + appLab.getChildPosition());
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        Log.i(AppLab.GLOBAL_TAG,"onDestroy " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onDestroy " + appLab.getChildPosition());
         super.onDestroy();
         if (dontWantToDelete) {
             appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
@@ -348,14 +347,14 @@ public class ChildCardFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.i(AppLab.GLOBAL_TAG,"onResume  " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "onResume  " + appLab.getChildPosition());
         updateUI();
         super.onResume();
     }
 
 
     private void goToList() {
-        Log.i(AppLab.GLOBAL_TAG,"go to list  " + appLab.getChildPosition());
+        Log.i(AppLab.GLOBAL_TAG, "go to list  " + appLab.getChildPosition());
         AppFragmentManager.openFragment(new ChildrenPageFragment());
     }
 }
