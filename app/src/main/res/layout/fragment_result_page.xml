@@ -50,11 +50,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_margin="16dp"
             android:gravity="end">
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:id="@+id/money_target_edit"
                 style="@style/BigText"
                 android:text="@string/total"/>
@@ -62,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/recycler_item_blue"
+                android:textSize="15sp"
                 android:id="@+id/set_money_target_button"
                 android:text="@string/Set_target" />
         </LinearLayout>
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/recycler_item_blue"
             android:id="@+id/go_settings_button"
+            android:layout_margin="16dp"
             android:text="@string/Settings" />
 
     </LinearLayout>

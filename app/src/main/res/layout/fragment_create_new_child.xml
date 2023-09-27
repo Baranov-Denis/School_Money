@@ -58,7 +58,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="26sp"
+            android:textSize="15sp"
             android:background="@drawable/recycler_item_blue"
             android:layout_margin="4dp"
             android:layout_weight="1"/>
@@ -70,7 +70,7 @@
             android:layout_height="60dp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="26sp"
+            android:textSize="15sp"
             android:background="@drawable/recycler_item_blue"
             android:layout_margin="4dp"
             android:layout_weight="1"/>

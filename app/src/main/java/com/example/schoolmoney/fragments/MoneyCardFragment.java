@@ -118,8 +118,13 @@ public class MoneyCardFragment extends Fragment {
         moneyNote = view.findViewById(R.id.money_card_note);
         moneyDate = view.findViewById(R.id.money_card_date);
 
+        int inc = Integer.parseInt(money.getValueExpenses());
+        int out = Integer.parseInt(money.getValueIncome());
+        int allInt = inc+out;
+        String all = Integer.toString(allInt);
+
         moneyTitle.setText(money.getTitle());
-        moneyValue.setText(money.getValueExpenses());
+        moneyValue.setText(all);
         moneyNote.setText(money.getNote());
         moneyDate.setText(money.getDate());
     }

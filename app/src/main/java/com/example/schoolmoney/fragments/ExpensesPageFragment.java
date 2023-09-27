@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
+import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -79,9 +81,17 @@ public class ExpensesPageFragment extends Fragment {
         }
 
         public void bind(Money money) {
+            LinearLayout layout = itemView.findViewById(R.id.money_item_row);
             this.money = money;
+
+            if (Integer.parseInt(money.getValueExpenses()) > 0) {
+                layout.setBackgroundResource(R.drawable.red_button);
+                moneyValue.setText(money.getValueExpenses().toString());
+            } else {
+                layout.setBackgroundResource(R.drawable.recycler_item_blue);
+                moneyValue.setText(money.getValueIncome().toString());
+            }
             moneyTitle.setText(money.getTitle());
-            moneyValue.setText(money.getValueExpenses() + "");
             moneyDate.setText(money.getDate());
         }
 
@@ -97,7 +107,7 @@ public class ExpensesPageFragment extends Fragment {
 
         private final List<Money> money;
 
-        public MoneyAdapter(List<Money> money) {
+       /* public MoneyAdapter(List<Money> money) {
             List<Money> onlySpendMoney = new ArrayList<>();
             for (Money moneyIt : money) {
                 if (Integer.parseInt(moneyIt.getValueExpenses()) > 0) {
@@ -105,6 +115,16 @@ public class ExpensesPageFragment extends Fragment {
                 }
             }
             this.money = onlySpendMoney;
+        }*/
+        public MoneyAdapter(List<Money> money) {
+          /*  List<Money> onlySpendMoney = new ArrayList<>();
+            for (Money moneyIt : money) {
+                if (Integer.parseInt(moneyIt.getValueExpenses()) > 0) {
+                    onlySpendMoney.add(moneyIt);
+                }
+            }
+            this.money = onlySpendMoney;*/
+            this.money = money;
         }
 
         @NonNull
@@ -117,12 +137,10 @@ public class ExpensesPageFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MoneyHolder holder, int position) {
-
             Money moneyItem = money.get(position);
-
-            if (Integer.parseInt(moneyItem.getValueExpenses()) > 0) {
+          //  if (Integer.parseInt(moneyItem.getValueExpenses()) > 0) {
                 holder.bind(moneyItem);
-            }
+          //  }
         }
 
         @Override

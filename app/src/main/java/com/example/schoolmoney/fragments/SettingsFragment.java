@@ -85,7 +85,14 @@ public class SettingsFragment extends Fragment {
                 public void run() {
                     if(!setTokenEditText.getText().toString().equals("")) {
                         SharedPreferencesHelper.saveToken(requireContext(), dropBoxHelper.getAccessToken(setTokenEditText.getText().toString()));
-                        setTokenEditText.setText("");
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), requireActivity().getResources().getString(R.string.Token_was_successfully_updated), Toast.LENGTH_LONG).show();
+                                setTokenEditText.setText("");
+                            }
+                        });
+                        //
                     }else {
                         refreshToken();
                     }
