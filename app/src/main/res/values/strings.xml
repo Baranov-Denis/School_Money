@@ -48,6 +48,10 @@
     <string name="Save_database">Save database</string>
     <string name="File_successfully_added_to_dropbox">File successfully added to dropbox</string>
     <string name="Something_went_wrong_file_does_not_saved">Something went wrong file does not saved</string>
+    <string name="Token_was_successfully_updated" >Token was successfully updated!!!</string>
+    <string name="Are_you_sure_that_this_child_wants_to_be_removed">Are you sure that this child wants to be removed?</string>
+    <string name="Are_you_sure_that_this_parent_wants_to_be_removed">Are you sure that this parent wants to be removed?</string>
+    <string name="Are_you_sure_that_this_entry_wants_to_be_removed">Are you sure that this entry wants to be removed?</string>
 
 
 </resources>

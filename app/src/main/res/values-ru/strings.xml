@@ -48,6 +48,11 @@
     <string name="Save_database">Сохранить базу данных</string>
     <string name="File_successfully_added_to_dropbox">База данных успешно сохранена в Dropbox!!!</string>
     <string name="Something_went_wrong_file_does_not_saved">Что-то пошло не так!!! Резервное копирование не удалось!!!</string>
+    <string name="Token_was_successfully_updated" >Токен успешно обновлён!!!</string>
+    <string name="Are_you_sure_that_this_child_wants_to_be_removed">Вы уверены, что хотите удалить этого ребёнка?</string>
+    <string name="Are_you_sure_that_this_parent_wants_to_be_removed">Вы уверены, что хотите удалить этого родителя?</string>
+    <string name="Are_you_sure_that_this_entry_wants_to_be_removed">Вы уверены, что хотите удалить эту запись?</string>
+
 
 
 </resources>

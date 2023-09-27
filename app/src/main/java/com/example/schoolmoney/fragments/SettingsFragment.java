@@ -103,7 +103,14 @@ public class SettingsFragment extends Fragment {
     }
 
     private void refreshToken(){
-        dropBoxHelper.refreshAccessToken();
+       if(dropBoxHelper.refreshAccessToken()){
+           getActivity().runOnUiThread(new Runnable() {
+               @Override
+               public void run() {
+                   Toast.makeText(getContext(), requireActivity().getResources().getString(R.string.Token_was_successfully_updated), Toast.LENGTH_LONG).show();
+               }
+           });
+       }
     }
 
 

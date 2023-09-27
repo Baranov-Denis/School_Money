@@ -22,6 +22,7 @@ import com.dropbox.core.oauth.DbxRefreshResult;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.DbxRawClientV2;
 import com.dropbox.core.v2.auth.DbxAppAuthRequests;
+import com.example.schoolmoney.R;
 import com.example.schoolmoney.database.DataBaseHelper;
 
 import java.io.IOException;
@@ -88,14 +89,14 @@ public class DropBoxHelper {
             throw new RuntimeException(e);
         }
         SharedPreferencesHelper.saveRefreshToken(context, authFinish.getRefreshToken());
-        SharedPreferencesHelper.saveExpiresTime(context, authFinish.getRefreshToken());
+        SharedPreferencesHelper.saveExpiresTime(context, authFinish.getExpiresAt().toString());
 
         return authFinish.getAccessToken();
 
     }
 
 
-    public void refreshAccessToken() {
+    public boolean refreshAccessToken() {
         DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
         String oldToken = SharedPreferencesHelper.getData(context).getDropboxToken();
         String refToken = SharedPreferencesHelper.getData(context).getRefreshToken();
@@ -107,9 +108,10 @@ public class DropBoxHelper {
             DbxRefreshResult refreshResult = client.refreshAccessToken();
             SharedPreferencesHelper.saveToken(context, refreshResult.getAccessToken());
         } catch (DbxException e) {
-            throw new RuntimeException(e);
+            return false;
         }
         client = new DbxClientV2(config, SharedPreferencesHelper.getData(context).getDropboxToken());
+        return true;
     }
 
 
@@ -128,6 +130,7 @@ public class DropBoxHelper {
                 // Если файл существует, вы можете его удалить
                 client.files().deleteV2(DROPBOX_FILE_PATH);
             }
+
             client.files().uploadBuilder(DROPBOX_FILE_PATH)
                     .uploadAndFinish(in);
 

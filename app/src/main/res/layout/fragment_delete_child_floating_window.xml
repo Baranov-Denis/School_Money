@@ -27,12 +27,21 @@
 
 
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            style="@style/BigText"
+            android:text="@string/Are_you_sure_that_this_child_wants_to_be_removed"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="32dp"
             android:orientation="horizontal">
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/chancel_child_floating_window_button"
