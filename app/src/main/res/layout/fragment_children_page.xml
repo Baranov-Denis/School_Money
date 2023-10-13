@@ -7,26 +7,24 @@
     tools:context=".fragments.ChildrenPageFragment">
 
     <LinearLayout
+        android:id="@+id/fragment_children_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        android:id="@+id/fragment_children_list"
-        android:tag="my_fragment_tag"
         android:paddingBottom="72dp"
-        >
+        android:tag="my_fragment_tag">
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/child_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ReceiptsPageFragment"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+            tools:context=".ReceiptsPageFragment"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-<LinearLayout
+
+    <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
