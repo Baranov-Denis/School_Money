@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        android:paddingBottom="72dp"
         android:tag="my_fragment_tag">
 
 
@@ -20,7 +19,9 @@
             android:id="@+id/spend_money_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ReceiptsPageFragment"></androidx.recyclerview.widget.RecyclerView>
+            tools:context=".ReceiptsPageFragment">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

@@ -8,5 +8,6 @@
     <color name="blue">#07B3AD</color>
     <color name="dark_blue">#047C77</color>
     <color name="too_dark_blue">#033E3C</color>
+    <color name="too_dark_blue_opacity_60">#99033E3C</color>
     <color name="red">#BF5E4D</color>
 </resources>
