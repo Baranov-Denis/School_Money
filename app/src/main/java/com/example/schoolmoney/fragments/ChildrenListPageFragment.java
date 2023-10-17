@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,9 +64,37 @@ public class ChildrenListPageFragment extends Fragment {
 
     private void setFabButton() {
         ImageButton addNewChildButton = view.findViewById(R.id.add_new_child_fab_button);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runAnimation(addNewChildButton);
+            }
+        }, 10000);
         addNewChildButton.setOnClickListener(o -> {
             AppFragmentManager.openFragment(new CreateNewChildFragment(), Animation.FROM_LEFT);
         });
+    }
+
+    private void runAnimation(View yourView) {
+        android.view.animation.Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        yourView.startAnimation(animation);
+        Handler handler = new Handler();
+
+// Создайте переменную для отслеживания количества выполнений анимации
+        int animationCount = 0;
+        animationCount++;
+
+        if (animationCount < 5) {
+            // Если анимацию нужно запустить ещё раз, поставьте задержку на 10 секунд
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runAnimation(yourView);
+                }
+            }, 10000); // 15000 миллисекунд = 15 секунд
+        }
     }
 
     private void updateUI() {

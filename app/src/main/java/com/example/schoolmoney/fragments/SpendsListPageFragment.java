@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class SpendsListPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_expenses_page, container, false);
+        view = inflater.inflate(R.layout.fragment_spends_list_page, container, false);
         moneyRecyclerView = view.findViewById(R.id.spend_money_recycler_view);
         moneyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         appLab = AppLab.getAppLab(getContext());
@@ -52,10 +54,38 @@ public class SpendsListPageFragment extends Fragment {
     }
 
     private void setFabButton() {
-        ImageButton addNewChildButton = view.findViewById(R.id.add_new_spend_money_fab_button);
-        addNewChildButton.setOnClickListener(o -> {
+        ImageButton addNewSpendButton = view.findViewById(R.id.add_new_spend_money_fab_button);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runAnimation(addNewSpendButton);
+            }
+        }, 10000);
+
+        addNewSpendButton.setOnClickListener(o -> {
             AppFragmentManager.openFragment(new AddNewSpendMoneyFragment(), Animation.FROM_RIGHT);
         });
+    }
+
+    private void runAnimation(View yourView) {
+        android.view.animation.Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        yourView.startAnimation(animation);
+        Handler handler = new Handler();
+
+// Создайте переменную для отслеживания количества выполнений анимации
+        int animationCount = 0;
+        animationCount++;
+
+        if (animationCount < 5) {
+            // Если анимацию нужно запустить ещё раз, поставьте задержку на 10 секунд
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runAnimation(yourView);
+                }
+            }, 10000); // 15000 миллисекунд = 15 секунд
+        }
     }
 
 
