@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
-import com.example.schoolmoney.appLab.DropBoxHelper;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.SharedPreferencesHelper;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 
-public class ChildrenPageFragment extends Fragment {
+public class ChildrenListPageFragment extends Fragment {
 
     private View view;
     private AppLab appLab;
@@ -51,17 +48,22 @@ public class ChildrenPageFragment extends Fragment {
             layoutManager.scrollToPosition(appLab.getChildPosition());
         }
         appLab.setChildPosition(0);
-        AppFragmentManager.createBottomButtons();
+
+      //  AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
         AppFragmentManager.closeApp(this);
+
         return view;
     }
+
+
+
 
     private void setFabButton() {
         ImageButton addNewChildButton = view.findViewById(R.id.add_new_child_fab_button);
         addNewChildButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(new CreateNewChildFragment());
+            AppFragmentManager.openFragment(new CreateNewChildFragment(), Animation.FROM_LEFT);
         });
     }
 
@@ -116,7 +118,7 @@ public class ChildrenPageFragment extends Fragment {
         @Override
         public void onClick(View v) {
             appLab.setChildPosition(layoutManager.findFirstVisibleItemPosition());
-            AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()));
+            AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()), Animation.FROM_LEFT);
         }
     }
 

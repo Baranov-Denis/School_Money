@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.FragmentTag;
 import com.example.schoolmoney.fragments.AppFragmentManager;
 import com.example.schoolmoney.fragments.ChildCardFragment;
 
@@ -47,7 +49,7 @@ public class ParentFloatingWindowFragment extends Fragment {
 
         deleteButton.setOnLongClickListener(ol -> {
             appLab.deleteParentByIdAndName(child.getUuid(),parentName);
-            AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()));
+            AppFragmentManager.openFragment(ChildCardFragment.newInstance(child.getUuid()), Animation.FADE_IN);
             return true;
         });
     }

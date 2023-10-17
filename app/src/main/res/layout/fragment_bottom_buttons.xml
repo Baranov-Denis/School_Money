@@ -3,63 +3,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.BottomButtonFragment">
-
-<LinearLayout
-    android:layout_gravity="bottom"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:background="@color/too_dark_blue_opacity_60">
-
+    android:elevation="10dp"
+    tools:context=".fragments.BottomButtonFragment"
+    >
     <LinearLayout
+        android:id="@+id/bottom_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="4dp"
-        android:gravity="bottom">
+        android:orientation="vertical"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/go_to_receipts_page_button"
-            android:text="@string/Children"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_margin="2dp"
-            android:layout_weight="1"/>
+    <LinearLayout
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/go_to_expenses_page_button"
-            android:text="@string/Expenses"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_margin="2dp"
-            android:layout_weight="1"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+     android:gravity="bottom">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/go_to_result_page_button"
-            android:text="@string/Result"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:background="@drawable/recycler_item_blue"
-            android:layout_margin="2dp"
-            android:layout_weight="1"/>
 
-    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/too_dark_blue_opacity_60"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:paddingTop="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="4dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/go_to_receipts_page_button"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/recycler_item_blue"
+                    android:text="@string/Children"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/go_to_expenses_page_button"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/recycler_item_blue"
+                    android:text="@string/Expenses"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/go_to_result_page_button"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/recycler_item_blue"
+                    android:text="@string/Result"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
 </LinearLayout>
 
-
-
-</FrameLayout>
+    </FrameLayout>

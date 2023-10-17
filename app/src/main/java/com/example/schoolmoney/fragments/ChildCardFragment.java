@@ -22,20 +22,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.appLab.Parent;
 import com.example.schoolmoney.fragments.windows.DeleteChildFloatingWindowFragment;
 import com.example.schoolmoney.fragments.windows.MoneyFloatingWindowFragment;
 import com.example.schoolmoney.fragments.windows.ParentFloatingWindowFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -122,7 +120,7 @@ public class ChildCardFragment extends Fragment {
 
         deleteButton.setOnLongClickListener(o -> {
             deleteThisChild();
-            AppFragmentManager.addFragment(new DeleteChildFloatingWindowFragment(child));
+            AppFragmentManager.addFragment(new DeleteChildFloatingWindowFragment(child),Animation.FADE_IN);
             return true;
         });
 
@@ -131,11 +129,11 @@ public class ChildCardFragment extends Fragment {
         });
 
         addParent.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(CreateNewParentFragment.newInstance(child.getUuid()));
+            AppFragmentManager.openFragment(CreateNewParentFragment.newInstance(child.getUuid()), Animation.FROM_BOTTOM);
         });
 
         addMoney.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(AddMoneyFormChildrenFragment.newInstance(child.getUuid()));
+            AppFragmentManager.openFragment(AddMoneyFormChildrenFragment.newInstance(child.getUuid()), Animation.FROM_BOTTOM);
         });
 
         changeNameButton.setOnClickListener(o -> {
@@ -177,7 +175,7 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            AppFragmentManager.addFragment(new ParentFloatingWindowFragment(child, parent.getParentName()));
+            AppFragmentManager.addFragment(new ParentFloatingWindowFragment(child, parent.getParentName()),Animation.FADE_IN);
             return true;
         }
 
@@ -247,7 +245,7 @@ public class ChildCardFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View v) {
-            AppFragmentManager.addFragment(new MoneyFloatingWindowFragment(money.getMoneyUuid(), child));
+            AppFragmentManager.addFragment(new MoneyFloatingWindowFragment(money.getMoneyUuid(), child),Animation.FADE_IN);
             return false;
         }
 
@@ -329,15 +327,10 @@ public class ChildCardFragment extends Fragment {
         Log.i(AppLab.GLOBAL_TAG, "onStop 2 " + appLab.getChildPosition());
     }
 
-    @Override
-    public void onDestroyView() {
-        Log.i(AppLab.GLOBAL_TAG, "onDestroyView " + appLab.getChildPosition());
-        super.onDestroyView();
-    }
+
 
     @Override
     public void onDestroy() {
-        Log.i(AppLab.GLOBAL_TAG, "onDestroy " + appLab.getChildPosition());
         super.onDestroy();
         if (dontWantToDelete) {
             appLab.changeNoteAndName(child, childNameTextView.getText().toString(), noteEditText.getText().toString());
@@ -354,7 +347,6 @@ public class ChildCardFragment extends Fragment {
 
 
     private void goToList() {
-        Log.i(AppLab.GLOBAL_TAG, "go to list  " + appLab.getChildPosition());
-        AppFragmentManager.openFragment(new ChildrenPageFragment());
+        AppFragmentManager.openFragmentInNewButtonsView(new ChildrenListPageFragment(), Animation.FROM_RIGHT,0);
     }
 }

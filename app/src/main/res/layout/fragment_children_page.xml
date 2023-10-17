@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ChildrenPageFragment">
+    tools:context=".fragments.ChildrenListPageFragment"
+    android:background="@color/too_dark_blue"
+    android:tag="CHILDREN_FRAGMENT"
+    android:id="@+id/fr1">
 
     <LinearLayout
         android:id="@+id/fragment_children_list"
@@ -12,7 +15,7 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        android:tag="my_fragment_tag">
+        >
 
 
         <androidx.recyclerview.widget.RecyclerView

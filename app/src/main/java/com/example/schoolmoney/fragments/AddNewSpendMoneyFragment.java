@@ -5,10 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,13 +68,24 @@ public class AddNewSpendMoneyFragment extends Fragment {
             }
             if(!titleEditText.getText().toString().equals("")&&!valueEditText.getText().toString().equals("")) {
                 appLab.addNewSpendMoneyFrom(titleEditText.getText().toString(), noteEditText.getText().toString() + "", valueEditText.getText().toString(), todayDate);
-                AppFragmentManager.openFragment(new ExpensesPageFragment());
+               // AppFragmentManager.openFragment(new ExpensesPageFragment(), Animation.FADE_IN);
+                goToList();
             }
         });
 
         cancelButton.setOnClickListener(o->{
-            AppFragmentManager.openFragment(new ExpensesPageFragment());
+            goToList();
         });
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        goToList();
+    }
+
+
+    private void goToList() {
+        AppFragmentManager.openFragmentInNewButtonsView(new SpendsListPageFragment(), Animation.FROM_LEFT,1);
     }
 
     private String getTodayDate(){

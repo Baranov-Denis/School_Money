@@ -36,10 +36,7 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         appLab = AppLab.getAppLab(getContext());
-
-
         setButtons();
-        AppFragmentManager.createBottomButtons();
         dropBoxHelper = DropBoxHelper.getDropboxHelper(getContext());
         AppLab.log(SharedPreferencesHelper.getData(getContext()).getDropboxToken());
         return view;

@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Child;
 import com.example.schoolmoney.fragments.AppFragmentManager;
-import com.example.schoolmoney.fragments.ChildCardFragment;
-import com.example.schoolmoney.fragments.ChildrenPageFragment;
-
-import java.util.UUID;
+import com.example.schoolmoney.fragments.ChildrenListPageFragment;
 
 
 public class DeleteChildFloatingWindowFragment extends Fragment {
@@ -48,7 +46,7 @@ public class DeleteChildFloatingWindowFragment extends Fragment {
 
         deleteButton.setOnLongClickListener(ol -> {
             appLab.deleteChildByUuid(child.getUuid());
-            AppFragmentManager.openFragment(new ChildrenPageFragment());
+            AppFragmentManager.openFragmentInNewButtonsView(new ChildrenListPageFragment(), Animation.FADE_IN,0);
             return true;
         });
     }

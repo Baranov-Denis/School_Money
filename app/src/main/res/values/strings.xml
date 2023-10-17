@@ -33,7 +33,7 @@
     <string name="SetDate">Set date</string>
     <string name="Back">Back</string>
     <string name="Money_title">Money title</string>
-    <string name="total">Total:</string>
+    <string name="total">Total current money:</string>
     <string name="total_receive">Total receive result:</string>
     <string name="Set_target">Set target</string>
     <string name="Settings">Settings</string>
@@ -52,6 +52,7 @@
     <string name="Are_you_sure_that_this_child_wants_to_be_removed">Are you sure that this child wants to be removed?</string>
     <string name="Are_you_sure_that_this_parent_wants_to_be_removed">Are you sure that this parent wants to be removed?</string>
     <string name="Are_you_sure_that_this_entry_wants_to_be_removed">Are you sure that this entry wants to be removed?</string>
+    <string name="total_spent">Total spent money:</string>
 
 
 </resources>

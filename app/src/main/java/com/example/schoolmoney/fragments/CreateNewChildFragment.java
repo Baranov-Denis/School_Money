@@ -1,6 +1,5 @@
 package com.example.schoolmoney.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 
 
@@ -40,8 +39,8 @@ public class CreateNewChildFragment extends Fragment {
         // Установите фокус на EditText
         editText.requestFocus();
         // Откройте клавиатуру
-        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+       // InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+       // imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void setButtons() {
@@ -69,14 +68,10 @@ public class CreateNewChildFragment extends Fragment {
         });
     }
 
-    private void goToList(){
-        AppFragmentManager.openFragment(new ChildrenPageFragment());
+    private void goToList() {
+        AppFragmentManager.openFragmentInNewButtonsView(new ChildrenListPageFragment(), Animation.FROM_RIGHT,0);
     }
 
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        AppFragmentManager.openFragment(new ChildrenPageFragment());
-    }
+
 }

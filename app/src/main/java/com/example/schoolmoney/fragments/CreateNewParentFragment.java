@@ -15,7 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
+import com.example.schoolmoney.appLab.FragmentTag;
 
 import java.util.UUID;
 
@@ -63,13 +65,13 @@ public class CreateNewParentFragment extends Fragment {
         EditText parentPhone = view.findViewById(R.id.enter_new_parent_phone_edit_text);
 
         cancelButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+            AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID), Animation.FROM_TOP);
         });
 
         saveButton.setOnClickListener(o -> {
             if(!parentName.getText().toString().equals("")&&!parentPhone.getText().toString().equals("")) {
                 appLab.addNewParent(childUUID, parentName.getText().toString(), parentPhone.getText().toString());
-                AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+                AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID), Animation.FROM_TOP);
             }
         });
     }
@@ -77,7 +79,6 @@ public class CreateNewParentFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
     }
 
 

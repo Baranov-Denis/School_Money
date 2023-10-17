@@ -1,6 +1,5 @@
 package com.example.schoolmoney.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,21 +12,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Money;
-import com.example.schoolmoney.appLab.Settings;
 import com.example.schoolmoney.appLab.SharedPreferencesHelper;
 
 
 public class ResultPageFragment extends Fragment {
 
-private AppLab appLab;
-private View view;
-private TextView totalResult;
-private TextView receiveResult;
-private EditText targetMoneyEdit;
-private Button setTargetButton;
-private Button goToSettingsButton;
+    private AppLab appLab;
+    private View view;
+    private TextView totalResult;
+    private TextView receiveResult;
+
+    private TextView spentResult;
+    private EditText targetMoneyEdit;
+    private Button setTargetButton;
+    private Button goToSettingsButton;
 
 
     @Override
@@ -35,14 +36,15 @@ private Button goToSettingsButton;
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_result_page, container, false);
         appLab = AppLab.getAppLab(getContext());
-        totalResult = view.findViewById(R.id.test_result);
+        totalResult = view.findViewById(R.id.current_money_result);
         receiveResult = view.findViewById(R.id.all_receive_result);
+        spentResult = view.findViewById(R.id.spent_money_result);
         targetMoneyEdit = view.findViewById(R.id.money_target_edit);
-        setTargetButton = view.findViewById(R.id.set_money_target_button);
+        //setTargetButton = view.findViewById(R.id.set_money_target_button);
         goToSettingsButton = view.findViewById(R.id.go_settings_button);
         targetMoneyEdit.setText(SharedPreferencesHelper.getData(getContext()).getMoneyTarget());
         setButtons();
-        AppFragmentManager.createBottomButtons();
+        //AppFragmentManager.createBottomButtons();
         updateUI();
         AppFragmentManager.closeApp(this);
         return view;
@@ -52,37 +54,56 @@ private Button goToSettingsButton;
         appLab = AppLab.getAppLab(getActivity());
         totalResult.setText(getTotalResultMoney());
         receiveResult.setText(getTotalReceive());
-
+        spentResult.setText(getSpentMoney());
     }
 
-    private String getTotalResultMoney(){
+    private String getTotalResultMoney() {
         int result = 0;
-        for(Money money : appLab.getMoneyList()){
+        for (Money money : appLab.getMoneyList()) {
             result += Integer.parseInt(money.getValueIncome());
             result -= Integer.parseInt(money.getValueExpenses());
         }
         return Integer.toString(result);
     }
 
-    private String getTotalReceive(){
+    private String getSpentMoney() {
         int result = 0;
-        for(Money money : appLab.getMoneyList()){
+        for (Money money : appLab.getMoneyList()) {
+            result += Integer.parseInt(money.getValueExpenses());
+        }
+        return Integer.toString(result);
+    }
+
+    private String getTotalReceive() {
+        int result = 0;
+        for (Money money : appLab.getMoneyList()) {
             result += Integer.parseInt(money.getValueIncome());
         }
         return Integer.toString(result);
     }
 
-    private void setButtons(){
-        setTargetButton.setOnClickListener(o->{
+    private void setButtons() {
+     /*   setTargetButton.setOnClickListener(o -> {
             String target = "5";
             target = targetMoneyEdit.getText().toString();
-            SharedPreferencesHelper.saveMoneyTarget(getContext(),target);
+            SharedPreferencesHelper.saveMoneyTarget(getContext(), target);
             targetMoneyEdit.setFocusable(false);
-            AppFragmentManager.openFragment(new ChildrenPageFragment());
+            AppFragmentManager.openFragment(new ChildrenPageFragment(), Animation.FADE_IN);
         });
+*/
+        goToSettingsButton.setOnClickListener(o -> {
+            AppFragmentManager.openFragmentInButtonsView(new SettingsFragment(), Animation.FROM_RIGHT);
+        });
+    }
 
-        goToSettingsButton.setOnClickListener(o->{
-            AppFragmentManager.openFragment(new SettingsFragment());
-        });
+    @Override
+    public void onPause() {
+        String target = "5";
+        target = targetMoneyEdit.getText().toString();
+        if (!targetMoneyEdit.getText().toString().equals("")) {
+            SharedPreferencesHelper.saveMoneyTarget(requireContext(), target);
+        }
+        super.onPause();
+
     }
 }

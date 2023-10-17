@@ -33,7 +33,8 @@
     <string name="SetDate">Задать дату</string>
     <string name="Back">Назад</string>
     <string name="Money_title">Название траты</string>
-    <string name="total">Итог:</string>
+    <string name="total">Денег осталось:</string>
+    <string name="total_spent">Всго денег потрачено:</string>
     <string name="total_receive">Всего денег получено:</string>
     <string name="Set_target">Установить цель</string>
     <string name="Settings">Настройки</string>

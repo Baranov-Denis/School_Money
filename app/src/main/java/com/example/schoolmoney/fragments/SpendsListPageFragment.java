@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.appLab.Money;
-import com.example.schoolmoney.appLab.Parent;
-import com.example.schoolmoney.appLab.SharedPreferencesHelper;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ExpensesPageFragment extends Fragment {
+public class SpendsListPageFragment extends Fragment {
 
     private View view;
     private AppLab appLab;
@@ -45,17 +41,20 @@ public class ExpensesPageFragment extends Fragment {
             layoutManager.scrollToPosition(appLab.getMoneyPosition());
         }
         appLab.setMoneyPosition(0);
-        AppFragmentManager.createBottomButtons();
+        //AppFragmentManager.createBottomButtons();
         setFabButton();
         updateUI();
         AppFragmentManager.closeApp(this);
+
+
+
         return view;
     }
 
     private void setFabButton() {
         ImageButton addNewChildButton = view.findViewById(R.id.add_new_spend_money_fab_button);
         addNewChildButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(new AddNewSpendMoneyFragment());
+            AppFragmentManager.openFragment(new AddNewSpendMoneyFragment(), Animation.FROM_RIGHT);
         });
     }
 
@@ -99,7 +98,7 @@ public class ExpensesPageFragment extends Fragment {
         @Override
         public void onClick(View v) {
             appLab.setMoneyPosition(layoutManager.findFirstVisibleItemPosition());
-            AppFragmentManager.openFragment(MoneyCardFragment.newInstance(money.getMoneyUuid()));
+            AppFragmentManager.openFragment(MoneyCardFragment.newInstance(money.getMoneyUuid()), Animation.FROM_RIGHT);
         }
 
     }

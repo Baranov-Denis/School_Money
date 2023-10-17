@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.schoolmoney.R;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
+import com.example.schoolmoney.appLab.FragmentTag;
 import com.example.schoolmoney.appLab.Money;
 
 import java.text.SimpleDateFormat;
@@ -93,18 +95,18 @@ public class AddMoneyFormChildrenFragment extends Fragment {
             if(!value.getText().toString().equals("")) {
                 UUID moneyUuid = UUID.randomUUID();
                 appLab.addNewIncomeMoneyFromChild(moneyUuid, childUUID, appLab.getChildByUUID(childUUID).getChildName(), Integer.parseInt(value.getText().toString()), todayDate);
-                AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+                AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID) , Animation.FROM_TOP);
             }
         });
 
         cancelButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+            AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID), Animation.FROM_TOP);
         });
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        AppFragmentManager.openFragment(ChildCardFragment.newInstance(childUUID));
+
     }
 }

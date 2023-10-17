@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.schoolmoney.R;
 import com.example.schoolmoney.appLab.AppLab;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.Money;
 import com.example.schoolmoney.fragments.windows.DeleteMoneyFloatingWindowFragment;
 
@@ -93,12 +93,12 @@ public class MoneyCardFragment extends Fragment {
         imageButton = view.findViewById(R.id.change_money_title_image_button);
 
         cancelButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(new ExpensesPageFragment());
+            goToList();
         });
 
         deleteButton.setOnLongClickListener(o -> {
             deleteThisMoney();
-            AppFragmentManager.addFragment(new DeleteMoneyFloatingWindowFragment(money));
+            AppFragmentManager.addFragment(new DeleteMoneyFloatingWindowFragment(money),Animation.FADE_IN);
             return true;
         });
 
@@ -148,6 +148,6 @@ public class MoneyCardFragment extends Fragment {
     }
 
     private void goToList() {
-        AppFragmentManager.openFragment(new ExpensesPageFragment());
+        AppFragmentManager.openFragmentInNewButtonsView(new SpendsListPageFragment(), Animation.FROM_LEFT,1);
     }
 }

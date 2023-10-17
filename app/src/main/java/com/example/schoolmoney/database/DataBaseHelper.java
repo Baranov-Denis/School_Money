@@ -7,10 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.example.schoolmoney.appLab.Animation;
 import com.example.schoolmoney.appLab.AppLab;
 import com.example.schoolmoney.database.DbSchema.*;
 import com.example.schoolmoney.fragments.AppFragmentManager;
-import com.example.schoolmoney.fragments.ChildrenPageFragment;
+import com.example.schoolmoney.fragments.ChildrenListPageFragment;
 
 
 import androidx.annotation.Nullable;
@@ -96,6 +97,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         AppLab.resetAppLab();
-        AppFragmentManager.openFragment(new ChildrenPageFragment());
+        AppFragmentManager.openFragment(new ChildrenListPageFragment(), Animation.FROM_BOTTOM);
     }
 }
