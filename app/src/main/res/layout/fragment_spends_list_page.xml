@@ -21,7 +21,8 @@
             android:id="@+id/spend_money_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ReceiptsPageFragment">
+            tools:context=".ReceiptsPageFragment"
+            android:layout_marginBottom="64dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 

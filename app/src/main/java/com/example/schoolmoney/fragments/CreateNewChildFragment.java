@@ -69,7 +69,7 @@ public class CreateNewChildFragment extends Fragment {
     }
 
     private void goToList() {
-        AppFragmentManager.openFragmentInNewButtonsView(new ChildrenListPageFragment(), Animation.FROM_RIGHT,0);
+        AppFragmentManager.openFragmentInNewButtonsView(new ChildrenListPageFragment(), Animation.FROM_TOP,0);
     }
 
 

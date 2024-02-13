@@ -73,7 +73,7 @@ public class ChildrenListPageFragment extends Fragment {
             }
         }, 10000);
         addNewChildButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(new CreateNewChildFragment(), Animation.FROM_LEFT);
+            AppFragmentManager.openFragment(new CreateNewChildFragment(), Animation.FROM_BOTTOM);
         });
     }
 

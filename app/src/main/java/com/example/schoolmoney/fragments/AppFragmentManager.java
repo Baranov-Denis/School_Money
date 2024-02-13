@@ -36,7 +36,7 @@ public class AppFragmentManager {
     }
 
     public static void openFragmentInNewButtonsView(Fragment fragment, Enum direction, int numberOfButton) {
-        openFragment(new BottomButtonFragment(numberOfButton), Animation.FROM_BOTTOM);
+        openFragment(new BottomButtonFragment(numberOfButton), direction);
 
         FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
         transaction = setAnimation(transaction, direction);

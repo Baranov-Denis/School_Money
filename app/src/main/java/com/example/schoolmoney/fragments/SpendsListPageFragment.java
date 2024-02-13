@@ -64,7 +64,7 @@ public class SpendsListPageFragment extends Fragment {
         }, 10000);
 
         addNewSpendButton.setOnClickListener(o -> {
-            AppFragmentManager.openFragment(new AddNewSpendMoneyFragment(), Animation.FROM_RIGHT);
+            AppFragmentManager.openFragment(new AddNewSpendMoneyFragment(), Animation.FROM_BOTTOM);
         });
     }
 

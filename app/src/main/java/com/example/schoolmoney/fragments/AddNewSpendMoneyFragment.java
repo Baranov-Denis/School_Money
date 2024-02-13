@@ -85,7 +85,7 @@ public class AddNewSpendMoneyFragment extends Fragment {
 
 
     private void goToList() {
-        AppFragmentManager.openFragmentInNewButtonsView(new SpendsListPageFragment(), Animation.FROM_LEFT,1);
+        AppFragmentManager.openFragmentInNewButtonsView(new SpendsListPageFragment(), Animation.FROM_TOP,1);
     }
 
     private String getTodayDate(){
